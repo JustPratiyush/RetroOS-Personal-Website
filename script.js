@@ -334,10 +334,11 @@ let currentWallpaper = 1;
 function setWallpaper(which) {
   if (which === "classic") {
     currentWallpaper = 0;
-    document.body.style.backgroundImage = "url('images/wallpaper0.webp')";
+    document.body.style.backgroundImage =
+      "url('assets/wallpapers/wallpaper0.webp')";
   } else {
     currentWallpaper = (currentWallpaper % 5) + 1;
-    document.body.style.backgroundImage = `url('images/wallpaper${currentWallpaper}.webp')`;
+    document.body.style.backgroundImage = `url('assets/wallpapers/wallpaper${currentWallpaper}.webp')`;
   }
   localStorage.setItem("currentWallpaper", currentWallpaper);
 }
@@ -346,7 +347,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedWallpaper = localStorage.getItem("currentWallpaper");
   if (savedWallpaper !== null) {
     currentWallpaper = parseInt(savedWallpaper, 10);
-    document.body.style.backgroundImage = `url('images/wallpaper${currentWallpaper}.webp')`;
+    document.body.style.backgroundImage = `url('assets/wallpapers/wallpaper${currentWallpaper}.webp')`;
   }
 });
 function toggleGrayscale(yes) {

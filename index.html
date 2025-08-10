@@ -17,7 +17,7 @@
 
     <!-- Desktop Icons -->
     <div id="icon-readme" class="desktop-icon" style="top: 60px; right: 20px">
-      <img src="images/TxtIcon.webp" alt="ReadMe" />
+      <img src="assets/icons/TxtIcon.webp" alt="ReadMe" />
       <span>ReadMe.txt</span>
     </div>
     <div
@@ -25,7 +25,7 @@
       class="desktop-icon"
       style="top: 160px; right: 20px"
     >
-      <img src="images/folderIcon.webp" alt="Projects" />
+      <img src="assets/icons/folderIcon.webp" alt="Projects" />
       <span>Projects</span>
     </div>
 
@@ -98,44 +98,8 @@
         onclick="openWindow('finder')"
         oncontextmenu="dockContext(event,'finder')"
       >
-        <img src="images/finder.png" alt="Finder" />
+        <img src="assets/icons/finder.webp" alt="Finder" />
         <span class="label">Finder</span>
-      </div>
-      <div
-        class="dock-icon"
-        data-app="notepad"
-        onclick="openWindow('notepad')"
-        oncontextmenu="dockContext(event,'notepad')"
-      >
-        <img src="images/notepad.webp" alt="Notepad" />
-        <span class="label">Notepad</span>
-      </div>
-      <div
-        class="dock-icon"
-        data-app="calculator"
-        onclick="openWindow('calculator')"
-        oncontextmenu="dockContext(event,'calculator')"
-      >
-        <img src="images/calculator.webp" alt="Calculator" />
-        <span class="label">Calculator</span>
-      </div>
-      <div
-        class="dock-icon"
-        data-app="settings"
-        onclick="openWindow('settings')"
-        oncontextmenu="dockContext(event,'settings')"
-      >
-        <img src="images/settings.webp" alt="Settings" />
-        <span class="label">Settings</span>
-      </div>
-      <div
-        class="dock-icon"
-        data-app="clockApp"
-        onclick="openWindow('clockApp')"
-        oncontextmenu="dockContext(event,'clockApp')"
-      >
-        <img src="images/clock.webp" alt="Clock" />
-        <span class="label">Clock</span>
       </div>
       <div
         class="dock-icon"
@@ -143,16 +107,56 @@
         onclick="openWindow('internet')"
         oncontextmenu="dockContext(event,'internet')"
       >
-        <img src="images/internet.webp" alt="Internet" />
+        <img src="assets/icons/internet.webp" alt="Internet" />
         <span class="label">Internet</span>
       </div>
+
+      <div
+        class="dock-icon"
+        data-app="calculator"
+        onclick="openWindow('calculator')"
+        oncontextmenu="dockContext(event,'calculator')"
+      >
+        <img src="assets/icons/calculator.webp" alt="Calculator" />
+        <span class="label">Calculator</span>
+      </div>
+      <div
+        class="dock-icon"
+        data-app="music"
+        onclick="openWindow('music')"
+        oncontextmenu="dockContext(event,'music')"
+      >
+        <img src="assets/icons/music.webp" alt="Music" />
+        <span class="label">Music</span>
+      </div>
+
+      <div
+        class="dock-icon"
+        data-app="clockApp"
+        onclick="openWindow('clockApp')"
+        oncontextmenu="dockContext(event,'clockApp')"
+      >
+        <img src="assets/icons/clock.webp" alt="Clock" />
+        <span class="label">Clock</span>
+      </div>
+
+      <div
+        class="dock-icon"
+        data-app="notepad"
+        onclick="openWindow('notepad')"
+        oncontextmenu="dockContext(event,'notepad')"
+      >
+        <img src="assets/icons/notepad.webp" alt="Notepad" />
+        <span class="label">Notepad</span>
+      </div>
+
       <div
         class="dock-icon"
         data-app="trash"
         onclick="openWindow('trash')"
         oncontextmenu="dockContext(event,'trash')"
       >
-        <img src="images/trash.webp" alt="Trash" />
+        <img src="assets/icons/trash.webp" alt="Trash" />
         <span class="label">Trash</span>
       </div>
     </div>
@@ -354,7 +358,7 @@
       </div>
       <div class="content internet-content">
         <div class="snoogle-header">
-          <img src="images/snoogle.webp" alt="Snoogle Logo" />
+          <img src="assets/icons/snoogle.webp" alt="Snoogle Logo" />
         </div>
 
         <form id="internetSearchForm" onsubmit="handleInternetSearch(event)">
@@ -374,7 +378,7 @@
               class="favourite-item"
             >
               <img
-                src="images/twitter.png"
+                src="assets/icons/twitter.webp"
                 alt="Twitter"
                 onerror="this.src='https://placehold.co/60x60/000000/FFFFFF?text=T'"
               />
@@ -386,7 +390,7 @@
               class="favourite-item"
             >
               <img
-                src="images/instagram.webp"
+                src="assets/icons/instagram.webp"
                 alt="Instagram"
                 onerror="this.src='https://placehold.co/60x60/E4405F/FFFFFF?text=IG'"
               />
@@ -398,7 +402,7 @@
               class="favourite-item"
             >
               <img
-                src="images/youtube.webp"
+                src="assets/icons/youtube.webp"
                 alt="Youtube"
                 onerror="this.src='https://placehold.co/60x60/FF0000/FFFFFF?text=YT'"
               />
@@ -410,7 +414,7 @@
               class="favourite-item"
             >
               <img
-                src="images/linkedin.webp"
+                src="assets/icons/linkedin.webp"
                 alt="LinkedIn"
                 onerror="this.src='https://placehold.co/60x60/0077B5/FFFFFF?text=in'"
               />
@@ -422,7 +426,7 @@
               class="favourite-item"
             >
               <img
-                src="images/github.png"
+                src="assets/icons/github.webp"
                 alt="GitHub"
                 onerror="this.src='https://placehold.co/60x60/333333/FFFFFF?text=Git'"
               />
