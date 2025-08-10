@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Retro macOS Website — Abhinav</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="grain"></div>
+
+    <!-- Desktop Icons -->
+    <div id="icon-readme" class="desktop-icon" style="top: 60px; right: 20px">
+      <img src="images/TxtIcon.webp" alt="ReadMe" />
+      <span>ReadMe.txt</span>
+    </div>
+    <div
+      id="icon-projects"
+      class="desktop-icon"
+      style="top: 160px; right: 20px"
+    >
+      <img src="images/folderIcon.webp" alt="Projects" />
+      <span>Projects</span>
+    </div>
+
+    <!-- Dynamic Window Containers -->
+    <div id="readme-container"></div>
+    <div id="projects-container"></div>
+
+    <div class="top-bar">
+      <div class="left">
+        <div
+          class="icon"
+          data-menu="appleMenu"
+          onclick="toggleMenu('appleMenu', this)"
+        >
+          
+        </div>
+        <div
+          class="icon"
+          data-menu="fileMenu"
+          onclick="toggleMenu('fileMenu', this)"
+        >
+          File
+        </div>
+        <div
+          class="icon"
+          data-menu="editMenu"
+          onclick="toggleMenu('editMenu', this)"
+        >
+          Edit
+        </div>
+        <div
+          class="icon"
+          data-menu="viewMenu"
+          onclick="toggleMenu('viewMenu', this)"
+        >
+          View
+        </div>
+      </div>
+      <div class="clock" id="clock">--:--</div>
+    </div>
+
+    <div id="appleMenu" class="menu">
+      <div onclick="menuAction('About This Mac')">About This Mac</div>
+      <div onclick="menuAction('System Info')">System Info</div>
+      <div onclick="openWindow('settings'); closeAllMenus();">Settings</div>
+      <div onclick="menuAction('Licenses')">Licenses</div>
+      <div onclick="menuAction('Shut Down')">Shut Down</div>
+    </div>
+    <div id="fileMenu" class="menu">
+      <div onclick="menuAction('New Document')">New</div>
+      <div onclick="menuAction('Open...')">Open</div>
+      <div onclick="menuAction('Save')">Save</div>
+    </div>
+    <div id="editMenu" class="menu">
+      <div onclick="menuAction('Undo')">Undo</div>
+      <div onclick="menuAction('Cut')">Cut</div>
+      <div onclick="menuAction('Copy')">Copy</div>
+      <div onclick="menuAction('Paste')">Paste</div>
+    </div>
+    <div id="viewMenu" class="menu">
+      <div onclick="menuAction('Zoom In')">Zoom In</div>
+      <div onclick="menuAction('Zoom Out')">Zoom Out</div>
+      <div onclick="menuAction('Full Screen')">Full Screen</div>
+    </div>
+
+    <div class="dock">
+      <div
+        class="dock-icon"
+        data-app="finder"
+        onclick="openWindow('finder')"
+        oncontextmenu="dockContext(event,'finder')"
+      >
+        <img src="images/finder.png" alt="Finder" />
+        <span class="label">Finder</span>
+      </div>
+      <div
+        class="dock-icon"
+        data-app="notepad"
+        onclick="openWindow('notepad')"
+        oncontextmenu="dockContext(event,'notepad')"
+      >
+        <img src="images/notepad.webp" alt="Notepad" />
+        <span class="label">Notepad</span>
+      </div>
+      <div
+        class="dock-icon"
+        data-app="calculator"
+        onclick="openWindow('calculator')"
+        oncontextmenu="dockContext(event,'calculator')"
+      >
+        <img src="images/calculator.webp" alt="Calculator" />
+        <span class="label">Calculator</span>
+      </div>
+      <div
+        class="dock-icon"
+        data-app="settings"
+        onclick="openWindow('settings')"
+        oncontextmenu="dockContext(event,'settings')"
+      >
+        <img src="images/settings.webp" alt="Settings" />
+        <span class="label">Settings</span>
+      </div>
+      <div
+        class="dock-icon"
+        data-app="clockApp"
+        onclick="openWindow('clockApp')"
+        oncontextmenu="dockContext(event,'clockApp')"
+      >
+        <img src="images/clock.webp" alt="Clock" />
+        <span class="label">Clock</span>
+      </div>
+      <div
+        class="dock-icon"
+        data-app="internet"
+        onclick="openWindow('internet')"
+        oncontextmenu="dockContext(event,'internet')"
+      >
+        <img src="images/internet.webp" alt="Internet" />
+        <span class="label">Internet</span>
+      </div>
+      <div
+        class="dock-icon"
+        data-app="trash"
+        onclick="openWindow('trash')"
+        oncontextmenu="dockContext(event,'trash')"
+      >
+        <img src="images/trash.webp" alt="Trash" />
+        <span class="label">Trash</span>
+      </div>
+    </div>
+
+    <div
+      id="notepad"
+      class="window"
+      style="display: none; left: 80px; top: 120px"
+    >
+      <div class="title">
+        <span>Notepad</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-min"
+            title="Minimize"
+            onclick="minimizeWindow('notepad')"
+            >−</span
+          >
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('notepad')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content">
+        <div style="margin-bottom: 8px">
+          <strong>Abhinav Kuchhal</strong> — edit and save below:
+        </div>
+        <textarea id="notepadArea"></textarea>
+        <div
+          style="margin-top: 8px; display: flex; gap: 8px; align-items: center"
+        >
+          <button onclick="saveNotepad()">Save</button>
+          <button onclick="loadNotepad()">Load</button>
+          <div
+            id="notepadSaved"
+            style="opacity: 0.8; font-size: 12px; margin-left: auto"
+          ></div>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="calculator"
+      class="window"
+      style="display: none; left: 60px; top: 120px"
+    >
+      <div class="title">
+        <span>Calculator</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-min"
+            title="Minimize"
+            onclick="minimizeWindow('calculator')"
+            >−</span
+          >
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('calculator')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content">
+        <input
+          id="calcDisplay"
+          readonly
+          style="width: 100%; font-size: 18px; padding: 6px; margin-bottom: 8px"
+        />
+        <div
+          style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px"
+        >
+          <button onclick="calcInput('^')">^</button>
+          <button onclick="calcInput('√')">√</button>
+          <button onclick="calcInput('%')">%</button>
+          <button onclick="calcInput('*')">*</button>
+          <button onclick="calcInput('7')">7</button>
+          <button onclick="calcInput('8')">8</button>
+          <button onclick="calcInput('9')">9</button>
+          <button onclick="calcInput('/')">/</button>
+          <button onclick="calcInput('4')">4</button>
+          <button onclick="calcInput('5')">5</button>
+          <button onclick="calcInput('6')">6</button>
+          <button onclick="calcInput('+')">+</button>
+          <button onclick="calcInput('1')">1</button>
+          <button onclick="calcInput('2')">2</button>
+          <button onclick="calcInput('3')">3</button>
+          <button onclick="calcInput('-')">-</button>
+          <button onclick="clearCalc()">AC</button>
+          <button onclick="calcInput('0')">0</button>
+          <button onclick="calcInput('.')">.</button>
+          <button onclick="calculate()">=</button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="settings"
+      class="window"
+      style="display: none; left: 300px; top: 320px"
+    >
+      <div class="title">
+        <span>Settings</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-min"
+            title="Minimize"
+            onclick="minimizeWindow('settings')"
+            >−</span
+          >
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('settings')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content">
+        <div style="margin-bottom: 8px">Wallpaper:</div>
+        <button onclick="setWallpaper('classic')">Classic</button>
+        <button onclick="setWallpaper('alt')">Alternate</button>
+        <div style="margin-top: 12px">Effects:</div>
+        <label
+          ><input
+            type="checkbox"
+            id="grayscaleToggle"
+            onchange="toggleGrayscale(this.checked)"
+          />
+          Grayscale wallpaper</label
+        >
+      </div>
+    </div>
+
+    <div
+      id="clockApp"
+      class="window small"
+      style="display: none; left: 700px; top: 140px"
+    >
+      <div class="title">
+        <span>Clock</span>
+        <span class="controls"
+          ><span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('clockApp')"
+            >×</span
+          ></span
+        >
+      </div>
+      <div class="content">
+        <div id="bigClock" class="big-clock-display"></div>
+      </div>
+    </div>
+
+    <div
+      id="trash"
+      class="window small"
+      style="display: none; left: 840px; top: 140px"
+    >
+      <div class="title">
+        <span>Trash</span>
+        <span class="controls"
+          ><span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('trash')"
+            >×</span
+          ></span
+        >
+      </div>
+      <div class="content">Trash is empty.</div>
+    </div>
+
+    <div
+      id="internet"
+      class="window"
+      style="display: none; left: 150px; top: 150px; width: 480px"
+    >
+      <div class="title">
+        <span>Internet</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-min"
+            title="Minimize"
+            onclick="minimizeWindow('internet')"
+            >−</span
+          >
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('internet')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content internet-content">
+        <div class="snoogle-header">
+          <img src="images/Snoogle.webp" alt="Snoogle Logo" />
+        </div>
+
+        <form id="internetSearchForm" onsubmit="handleInternetSearch(event)">
+          <input
+            type="text"
+            id="internetSearchInput"
+            placeholder="Search or type a URL"
+          />
+        </form>
+
+        <div class="favourites-section">
+          <div class="favourites-title">Find me here!</div>
+          <div class="favourites-container">
+            <a
+              href="https://x.com/JustPratiyush"
+              target="_blank"
+              class="favourite-item"
+            >
+              <img
+                src="images/twitter.png"
+                alt="Twitter"
+                onerror="this.src='https://placehold.co/60x60/000000/FFFFFF?text=T'"
+              />
+              <span class="favourite-label">Twitter</span>
+            </a>
+            <a
+              href="https://www.instagram.com/justpratiyush/"
+              target="_blank"
+              class="favourite-item"
+            >
+              <img
+                src="images/instagram.webp"
+                alt="Instagram"
+                onerror="this.src='https://placehold.co/60x60/E4405F/FFFFFF?text=IG'"
+              />
+              <span class="favourite-label">Instagram</span>
+            </a>
+            <a
+              href="https://www.youtube.com/@JustPratiyush"
+              target="_blank"
+              class="favourite-item"
+            >
+              <img
+                src="images/youtube.webp"
+                alt="Youtube"
+                onerror="this.src='https://placehold.co/60x60/FF0000/FFFFFF?text=YT'"
+              />
+              <span class="favourite-label">Youtube</span>
+            </a>
+            <a
+              href="https://www.linkedin.com/in/abhinav-kuchhal/"
+              target="_blank"
+              class="favourite-item"
+            >
+              <img
+                src="images/linkedin.webp"
+                alt="LinkedIn"
+                onerror="this.src='https://placehold.co/60x60/0077B5/FFFFFF?text=in'"
+              />
+              <span class="favourite-label">LinkedIn</span>
+            </a>
+            <a
+              href="https://github.com/JustPratiyush"
+              target="_blank"
+              class="favourite-item"
+            >
+              <img
+                src="images/github.png"
+                alt="GitHub"
+                onerror="this.src='https://placehold.co/60x60/333333/FFFFFF?text=Git'"
+              />
+              <span class="favourite-label">GitHub</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
