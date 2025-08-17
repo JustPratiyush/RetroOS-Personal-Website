@@ -37,12 +37,15 @@
 }
 
 /* Apple logo */
+
 .boot-apple {
-  font-size: 84px;
-  line-height: 1;
-  margin-bottom: 18px;
-  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.6));
-  -webkit-font-smoothing: antialiased;
+  width: 60px;
+  margin-bottom: 5px;
+}
+
+.logo {
+  width: 20px;
+  margin-top: 5px;
 }
 
 /* progress bar container */
@@ -52,7 +55,7 @@
   margin: 12px auto 8px;
   border: 2px solid rgba(255, 255, 255, 0.15);
   background: rgba(255, 255, 255, 0.04);
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   box-shadow: inset 0 -2px 0 rgba(255, 255, 255, 0.02);
 }
@@ -190,11 +193,10 @@ select {
   gap: 22px;
   padding: 8px 14px;
   background: rgba(255, 255, 255, 0.4);
-  border-bottom: 2px solid #000;
 }
 .top-bar .left {
   display: flex;
-  gap: 22px;
+  gap: 12px;
   align-items: center;
 }
 .top-bar .icon {
@@ -213,7 +215,7 @@ select {
   font-size: 15px;
   font-weight: 600;
   letter-spacing: 0.5px;
-  padding: 4px 12px;
+  padding: 5px 12px;
   background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   margin-left: auto;
@@ -392,7 +394,6 @@ select {
   transform: scale(1.05);
 }
 .dock-icon.active img {
-  filter: invert(1);
   transform: scale(1.05);
 }
 

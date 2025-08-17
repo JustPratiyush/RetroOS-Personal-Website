@@ -663,12 +663,11 @@ function renderTrashContent() {
     trashContent.innerHTML = `<div style="padding:12px;">Trash is empty.</div>`;
   } else {
     trashContent.innerHTML = `
-      <div style="display:flex;align-items:center;gap:14px;flex-direction:column;">
+      <div style="display:flex;align-items:left;gap:14px;flex-direction:column;">
         <div class="finder-icon" ondblclick="revealEasterEgg()" style="margin-top:6px;">
           <img src="assets/icons/folderIcon.webp" alt="Secret Folder" style="width:var(--file-icon-size);height:var(--file-icon-size);">
           <span>DO NOT OPEN</span>
         </div>
-        <div style="font-size:12px;color:#666;">Double-click the folder to see what's inside.</div>
       </div>
     `;
   }
@@ -863,6 +862,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // pressing ENTER key or clicking the button proceeds to the app
   function finishBoot() {
+    // Play startup sound
+    const startupSound = new Audio('assets/sounds/startup-sound.mp3');
+    startupSound.volume = 0.5; // Set volume to 50%
+    startupSound.play().catch(e => console.log('Could not play startup sound:', e));
+    
     // hide and remove boot screen with fade
     if (!bootScreen) return;
     bootScreen.classList.add("boot-hide");
@@ -872,7 +876,7 @@ document.addEventListener("DOMContentLoaded", () => {
       document.body.classList.remove("booting");
       // initialize the rest of the app
       initApp();
-    }, 420); // match CSS transition duration
+    }, 1000); // Slightly longer delay to allow sound to play
   }
 
   enterBtn?.addEventListener("click", finishBoot);
