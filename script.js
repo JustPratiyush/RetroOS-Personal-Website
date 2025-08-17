@@ -260,19 +260,23 @@ function menuAction(action) {
     case "About This Mac":
       createMessageWindow(
         "About This Mac",
-        `<strong>Retro OS v1.1</strong><br>Created by Abhinav Kuchhal.`
+        `<strong>Retro OS v1.6</strong><br>Created by Abhinav Kuchhal.<br><br>A fun, interactive portfolio website inspired by classic Mac OS. Enjoy your stay!`
       );
       break;
     case "System Info":
       createMessageWindow(
         "System Info",
-        `<strong>Processor:</strong> 1.21 GHz PowerPC (Emulated)<br><strong>Memory:</strong> 128 MB VRAM (Virtual RAM)`
+        `<strong>Processor:</strong> 1.21 GHz PowerPC (Emulated)<br><strong>Memory:</strong> 128 MB VRAM (Virtual RAM)
+        <br><strong>Graphics:</strong> Imagination Engine II
+        <br><strong>Serial Number:</strong> AK20241337`
       );
       break;
     case "Licenses":
       createMessageWindow(
         "Licenses",
-        `Icons and fonts are used for personal, non-commercial purposes.`
+        `<strong style="font-family:Times New Roman;">© 2025 ABHINAV KUCHHAL</strong><br><br>
+          All icons and images are used for personal, non-commercial purposes. Fonts are from Google Fonts. This project is a tribute and not affiliated with Apple Inc.
+          <br><br><strong style="font-family:Times New Roman;"> All Rights Reserved.</strong>`
       );
       break;
     case "Shut Down":
@@ -440,7 +444,7 @@ function openReadMe() {
       </span>
     </div>
     <div class="content" style="padding:15px; font-size:16px; line-height:1.6;">
-      <h3>Abhinav Kuchhal</h3>
+      <h2>Hey!,  I am Abhinav Kuchhal</h2>
       <p>A passionate developer with a love for creating intuitive and engaging digital experiences.</p>
       <hr style="border:none; border-top: 1px solid #ccc; margin: 10px 0;">
       <h4>Skills</h4>
