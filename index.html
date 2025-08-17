@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Retro macOS Website — Abhinav</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -11,11 +11,40 @@
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.min.js"></script>
   </head>
   <body>
+    <!-- BOOT / PRELOAD OVERLAY -->
+    <div id="boot-screen" aria-hidden="false">
+      <div class="boot-center">
+        <div class="boot-apple"></div>
+
+        <div
+          class="boot-progress-wrap"
+          role="progressbar"
+          aria-valuemin="0"
+          aria-valuemax="100"
+        >
+          <div id="boot-progress" class="boot-progress"></div>
+        </div>
+
+        <div id="boot-percent" class="boot-percent">0%</div>
+
+        <button
+          id="boot-enter"
+          class="boot-enter"
+          aria-hidden="true"
+          style="display: none"
+        >
+          ENTER
+        </button>
+
+        <div id="boot-caption" class="boot-caption">Starting RetroOS...</div>
+      </div>
+    </div>
+
     <div class="grain"></div>
 
-    <!-- Desktop Icons -->
     <div id="icon-readme" class="desktop-icon" style="top: 60px; right: 20px">
       <img src="assets/icons/TxtIcon.webp" alt="ReadMe" />
       <span>ReadMe.txt</span>
@@ -29,7 +58,6 @@
       <span>Projects</span>
     </div>
 
-    <!-- Dynamic Window Containers -->
     <div id="readme-container"></div>
     <div id="projects-container"></div>
 
@@ -110,7 +138,6 @@
         <img src="assets/icons/internet.webp" alt="Internet" />
         <span class="label">Internet</span>
       </div>
-
       <div
         class="dock-icon"
         data-app="calculator"
@@ -129,7 +156,6 @@
         <img src="assets/icons/music.webp" alt="Music" />
         <span class="label">Music</span>
       </div>
-
       <div
         class="dock-icon"
         data-app="clockApp"
@@ -139,7 +165,6 @@
         <img src="assets/icons/clock.webp" alt="Clock" />
         <span class="label">Clock</span>
       </div>
-
       <div
         class="dock-icon"
         data-app="notepad"
@@ -149,18 +174,103 @@
         <img src="assets/icons/notepad.webp" alt="Notepad" />
         <span class="label">Notepad</span>
       </div>
-
       <div
         class="dock-icon"
         data-app="trash"
         onclick="openWindow('trash')"
-        oncontextmenu="dockContext(event,'trash')"
+        oncontextmenu="dockContext(event, 'trash')"
       >
         <img src="assets/icons/trash.webp" alt="Trash" />
         <span class="label">Trash</span>
       </div>
     </div>
 
+    <!-- (rest is unchanged windows/apps) -->
+    <div
+      id="finder"
+      class="window"
+      style="display: none; left: 100px; top: 80px; width: 600px; height: 400px"
+    >
+      <div class="title">
+        <span>Finder</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-min"
+            title="Minimize"
+            onclick="minimizeWindow('finder')"
+            >−</span
+          >
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('finder')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content finder-content">
+        <div class="finder-sidebar">
+          <div
+            class="sidebar-item active"
+            onclick="renderFinderContent('desktop')"
+          >
+            Desktop
+          </div>
+          <div class="sidebar-item" onclick="renderFinderContent('documents')">
+            Documents
+          </div>
+          <div class="sidebar-item" onclick="renderFinderContent('downloads')">
+            Downloads
+          </div>
+        </div>
+        <div class="finder-main"></div>
+      </div>
+    </div>
+
+    <div
+      id="music"
+      class="window"
+      style="display: none; left: 250px; top: 150px; width: 320px"
+    >
+      <div class="title">
+        <span>Music</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-min"
+            title="Minimize"
+            onclick="minimizeWindow('music')"
+            >−</span
+          >
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('music')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content music-player">
+        <div class="album-art">
+          <img
+            src="assets/icons/dog.webp"
+            alt="Album Art"
+            onerror="this.src='https://placehold.co/150x150/000000/FFFFFF?text=RetroDog'"
+          />
+        </div>
+        <div class="track-info">
+          <div id="songTitle" class="song-title">Pixel Dog Bop</div>
+          <div id="songArtist" class="song-artist">DJ Abhinav</div>
+        </div>
+        <div class="music-controls">
+          <button id="prevBtn">|◀</button>
+          <button id="playPauseBtn">▶</button>
+          <button id="nextBtn">▶|</button>
+        </div>
+        <div id="musicStatus" style="font-size: 12px; opacity: 0.8"></div>
+      </div>
+    </div>
+
+    <!-- Notepad / Calculator / Settings / Clock / Trash / Internet etc. (unchanged) -->
     <div
       id="notepad"
       class="window"
@@ -288,8 +398,7 @@
             type="checkbox"
             id="grayscaleToggle"
             onchange="toggleGrayscale(this.checked)"
-          />
-          Grayscale wallpaper</label
+          />Grayscale wallpaper</label
         >
       </div>
     </div>
@@ -317,12 +426,18 @@
 
     <div
       id="trash"
-      class="window small"
-      style="display: none; left: 840px; top: 140px"
+      class="window"
+      style="
+        display: none;
+        left: 840px;
+        top: 140px;
+        width: 400px;
+        height: 300px;
+      "
     >
       <div class="title">
-        <span>Trash</span>
-        <span class="controls"
+        <span>Trash</span
+        ><span class="controls"
           ><span
             class="ctrl ctrl-close"
             title="Close"
@@ -331,7 +446,7 @@
           ></span
         >
       </div>
-      <div class="content">Trash is empty.</div>
+      <div class="content" id="trashContent" style="padding: 15px"></div>
     </div>
 
     <div
@@ -340,27 +455,25 @@
       style="display: none; left: 150px; top: 150px; width: 480px"
     >
       <div class="title">
-        <span>Internet</span>
-        <span class="controls">
-          <span
+        <span>Internet</span
+        ><span class="controls"
+          ><span
             class="ctrl ctrl-min"
             title="Minimize"
             onclick="minimizeWindow('internet')"
             >−</span
-          >
-          <span
+          ><span
             class="ctrl ctrl-close"
             title="Close"
             onclick="closeWindow('internet')"
             >×</span
-          >
-        </span>
+          ></span
+        >
       </div>
       <div class="content internet-content">
         <div class="snoogle-header">
           <img src="assets/icons/snoogle.webp" alt="Snoogle Logo" />
         </div>
-
         <form id="internetSearchForm" onsubmit="handleInternetSearch(event)">
           <input
             type="text"
@@ -368,7 +481,6 @@
             placeholder="Search or type a URL"
           />
         </form>
-
         <div class="favourites-section">
           <div class="favourites-title">Find me here!</div>
           <div class="favourites-container">
@@ -376,62 +488,47 @@
               href="https://x.com/JustPratiyush"
               target="_blank"
               class="favourite-item"
+              ><img src="assets/icons/twitter.webp" alt="Twitter" /><span
+                class="favourite-label"
+                >Twitter</span
+              ></a
             >
-              <img
-                src="assets/icons/twitter.webp"
-                alt="Twitter"
-                onerror="this.src='https://placehold.co/60x60/000000/FFFFFF?text=T'"
-              />
-              <span class="favourite-label">Twitter</span>
-            </a>
             <a
               href="https://www.instagram.com/justpratiyush/"
               target="_blank"
               class="favourite-item"
+              ><img src="assets/icons/instagram.webp" alt="Instagram" /><span
+                class="favourite-label"
+                >Instagram</span
+              ></a
             >
-              <img
-                src="assets/icons/instagram.webp"
-                alt="Instagram"
-                onerror="this.src='https://placehold.co/60x60/E4405F/FFFFFF?text=IG'"
-              />
-              <span class="favourite-label">Instagram</span>
-            </a>
             <a
               href="https://www.youtube.com/@JustPratiyush"
               target="_blank"
               class="favourite-item"
+              ><img src="assets/icons/youtube.webp" alt="Youtube" /><span
+                class="favourite-label"
+                >Youtube</span
+              ></a
             >
-              <img
-                src="assets/icons/youtube.webp"
-                alt="Youtube"
-                onerror="this.src='https://placehold.co/60x60/FF0000/FFFFFF?text=YT'"
-              />
-              <span class="favourite-label">Youtube</span>
-            </a>
             <a
               href="https://www.linkedin.com/in/abhinav-kuchhal/"
               target="_blank"
               class="favourite-item"
+              ><img src="assets/icons/linkedin.webp" alt="LinkedIn" /><span
+                class="favourite-label"
+                >LinkedIn</span
+              ></a
             >
-              <img
-                src="assets/icons/linkedin.webp"
-                alt="LinkedIn"
-                onerror="this.src='https://placehold.co/60x60/0077B5/FFFFFF?text=in'"
-              />
-              <span class="favourite-label">LinkedIn</span>
-            </a>
             <a
               href="https://github.com/JustPratiyush"
               target="_blank"
               class="favourite-item"
+              ><img src="assets/icons/github.webp" alt="GitHub" /><span
+                class="favourite-label"
+                >GitHub</span
+              ></a
             >
-              <img
-                src="assets/icons/github.webp"
-                alt="GitHub"
-                onerror="this.src='https://placehold.co/60x60/333333/FFFFFF?text=Git'"
-              />
-              <span class="favourite-label">GitHub</span>
-            </a>
           </div>
         </div>
       </div>
