@@ -28,23 +28,6 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-/* ---------------------------
-   (existing functions) Menus, windows, drag, apps, etc.
-   (UNCHANGED logic from earlier — trimmed here for brevity in comments)
-   We'll keep same function implementations and then call initApp()
-   after boot completes. 
-   Full functions are included below exactly like before, with no behavior changes,
-   except we moved initialization into initApp().
-*/
-
-// ---------- (All previously implemented functions remain unchanged) ----------
-// For brevity I will keep the same function implementations (menu toggles, window controls,
-// makeDraggable, makeIconDraggable, openWindow, closeWindow, minimizeWindow, menuAction,
-// notepad save/load, calculator, wallpaper, projects/readme, finder, music (Tone.js safe handling),
-// trash/easter egg, dockContext, createMessageWindow, etc).
-// The important structural change: the DOMContentLoaded initialization has been converted to initApp()
-// which will be executed after the preloader & ENTER click.
-
 // ---------- BEGIN: full app code (copied & preserved; unchanged) ----------
 /* ---------------------------
    Menus
@@ -863,10 +846,12 @@ document.addEventListener("DOMContentLoaded", () => {
   // pressing ENTER key or clicking the button proceeds to the app
   function finishBoot() {
     // Play startup sound
-    const startupSound = new Audio('assets/sounds/startup-sound.mp3');
+    const startupSound = new Audio("assets/sounds/startup-sound.mp3");
     startupSound.volume = 0.5; // Set volume to 50%
-    startupSound.play().catch(e => console.log('Could not play startup sound:', e));
-    
+    startupSound
+      .play()
+      .catch((e) => console.log("Could not play startup sound:", e));
+
     // hide and remove boot screen with fade
     if (!bootScreen) return;
     bootScreen.classList.add("boot-hide");
