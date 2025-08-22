@@ -336,6 +336,77 @@
       </div>
     </div>
 
+    <!-- This is the new window for the Mail app -->
+    <div
+      id="mail"
+      class="window"
+      style="
+        display: none;
+        left: 150px;
+        top: 120px;
+        width: 550px;
+        height: 450px;
+      "
+    >
+      <div class="title">
+        <span>New Message</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('mail')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content mail-content">
+        <!-- Your Formspree form, styled for the app -->
+        <!-- Your Formspree form, updated for subject and file uploads -->
+        <form
+          action="https://formspree.io/f/mdkdqlol"
+          method="POST"
+          enctype="multipart/form-data"
+        >
+          <div class="mail-header">
+            <label>To:</label>
+            <input type="text" value="Abhinav Kuchhal(Me)" readonly />
+          </div>
+          <div class="mail-header">
+            <label for="email-from">From:</label>
+            <input
+              id="email-from"
+              type="email"
+              name="email"
+              placeholder="your-email@example.com"
+              required
+            />
+          </div>
+
+          <!-- New Subject Field -->
+          <div class="mail-header">
+            <label for="email-subject">Subject:</label>
+            <input
+              id="email-subject"
+              type="text"
+              name="subject"
+              placeholder="Regarding your awesome project..."
+              required
+            />
+          </div>
+          <div class="mail-body">
+            <textarea
+              name="message"
+              placeholder="Your message..."
+              required
+            ></textarea>
+          </div>
+          <div class="mail-footer">
+            <button type="submit">Send Message</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
     <div
       id="coffee"
       class="window"
