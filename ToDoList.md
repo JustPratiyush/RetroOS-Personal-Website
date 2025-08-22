@@ -12,3 +12,4 @@
 10. Add Calculator Easter Egg.
 11. Minimize should not close apps; dock should show active apps.
 12. Update `Readme.txt` info and add project hyperlinks in projects folder.
+13. Covert all pngs to Webp

@@ -904,4 +904,53 @@ function initApp() {
 
   // update clock immediately
   updateClock();
+
+  // Add this line to initialize the battery icon
+  updateBatteryStatus();
+}
+
+/* ---------------------------
+   Battery Status
+   --------------------------- */
+function updateBatteryStatus() {
+  // Check if the Battery API is supported by the browser
+  if ("getBattery" in navigator) {
+    navigator.getBattery().then(function (battery) {
+      const batteryLevelEl = document.getElementById("battery-level");
+      const batteryIconEl = document.getElementById("battery-icon");
+
+      function updateAllBatteryInfo() {
+        if (!batteryLevelEl || !batteryIconEl) return;
+
+        // Update the width of the green bar
+        const levelPercent = Math.round(battery.level * 100);
+        batteryLevelEl.style.width = levelPercent + "%";
+
+        // Change color based on level
+        if (levelPercent < 20) {
+          batteryLevelEl.style.backgroundColor = "#ff6b6b"; // Red for low battery
+        } else {
+          batteryLevelEl.style.backgroundColor = "#32cd32"; // Green for normal
+        }
+
+        // Add a title to show percentage on hover
+        batteryIconEl.title = `Battery: ${levelPercent}%`;
+      }
+
+      // Initial update
+      updateAllBatteryInfo();
+
+      // Update when the battery level changes
+      battery.addEventListener("levelchange", updateAllBatteryInfo);
+
+      // You can also listen for charging changes if you want
+      // battery.addEventListener('chargingchange', updateAllBatteryInfo);
+    });
+  } else {
+    // If the API is not supported, hide the battery icon
+    const batteryIconEl = document.getElementById("battery-icon");
+    if (batteryIconEl) {
+      batteryIconEl.style.display = "none";
+    }
+  }
 }

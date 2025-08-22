@@ -212,21 +212,19 @@ select {
 }
 .top-bar .clock {
   font-family: "VT323", monospace, sans-serif;
-  font-size: 15px;
+  font-size: 20px;
   font-weight: 600;
   letter-spacing: 0.5px;
   padding: 5px 12px;
-  background: rgba(255, 255, 255, 0.6);
   border-radius: 10px;
   margin-left: auto;
   opacity: 0.85;
-  /* MODIFIED: Added cursor pointer to indicate it's clickable */
   cursor: pointer;
   transition: background-color 0.2s;
 }
 
 .top-bar .clock:hover {
-  background: rgba(255, 255, 255, 0.8);
+  background: rgba(255, 255, 255, 0.6);
 }
 
 /* Menus */
@@ -577,6 +575,55 @@ select {
 .favourite-label {
   font-size: 12px;
   font-weight: 600;
+}
+
+/* New styles for the right-side icons in the top bar */
+.top-bar .right-icons {
+  margin-left: auto; /* This pushes the whole group to the right */
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.status-icon {
+  height: 25px;
+  display: flex;
+  align-items: center;
+}
+
+.status-icon img {
+  height: 100%;
+  width: auto;
+}
+
+/* Specific styling for the battery icon */
+.battery {
+  width: 24px;
+  height: 10px;
+  border: 2px solid #000;
+  padding: 2px;
+  position: relative;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+}
+
+/* This creates the little nub on the end of the battery */
+.battery::after {
+  content: "";
+  position: absolute;
+  right: -5px;
+  top: 3px;
+  width: 3px;
+  height: 8px;
+  background-color: #000;
+  border-radius: 0 2px 2px 0;
+}
+
+.battery-level {
+  width: 80%; /* Default to full */
+  height: 100%;
+  background-color: #32cd32; /* Green color for the charge */
+  transition: width 0.5s ease;
 }
 
 /* Generic */

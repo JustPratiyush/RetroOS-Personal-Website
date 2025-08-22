@@ -91,8 +91,18 @@
           View
         </div>
       </div>
-      <!-- MODIFIED: Added onclick event to open the clock window -->
-      <div class="clock" id="clock" onclick="openWindow('clockApp')">--:--</div>
+      <!-- This is the new container for the right-side icons -->
+      <div class="right-icons">
+        <div class="status-icon">
+          <img src="assets/icons/wifi.png" alt="Wi-Fi" />
+        </div>
+        <div id="battery-icon" class="status-icon battery">
+          <div id="battery-level" class="battery-level"></div>
+        </div>
+        <div class="clock" id="clock" onclick="openWindow('clockApp')">
+          --:--
+        </div>
+      </div>
     </div>
 
     <div id="appleMenu" class="menu">
