@@ -1,0 +1,25 @@
+/* Responsive */
+@media (max-width: 600px) {
+  :root {
+    --file-icon-size: var(--file-icon-size-sm);
+  }
+  .window {
+    width: 92%;
+    left: 4% !important;
+  }
+  .dock {
+    width: 95%;
+  }
+  .dock-icon {
+    width: 50px;
+    height: 50px;
+  }
+  .dock-icon::before {
+    width: 52px;
+    height: 52px;
+  }
+  .dock-icon img {
+    width: var(--file-icon-size);
+    height: var(--file-icon-size);
+  }
+}
