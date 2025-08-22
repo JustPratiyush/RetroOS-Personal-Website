@@ -48,15 +48,11 @@
 
     <div class="grain"></div>
 
-    <div id="icon-readme" class="desktop-icon" style="top: 60px; right: 20px">
+    <div id="icon-readme" class="desktop-icon" style="top: 80px; left: 20px">
       <img src="assets/icons/TxtIcon.webp" alt="ReadMe" />
       <span>ReadMe.txt</span>
     </div>
-    <div
-      id="icon-projects"
-      class="desktop-icon"
-      style="top: 160px; right: 20px"
-    >
+    <div id="icon-projects" class="desktop-icon" style="top: 180px; left: 20px">
       <img src="assets/icons/folderIcon.webp" alt="Projects" />
       <span>Projects</span>
     </div>
@@ -95,7 +91,8 @@
           View
         </div>
       </div>
-      <div class="clock" id="clock">--:--</div>
+      <!-- MODIFIED: Added onclick event to open the clock window -->
+      <div class="clock" id="clock" onclick="openWindow('clockApp')">--:--</div>
     </div>
 
     <div id="appleMenu" class="menu">
@@ -141,6 +138,7 @@
         <img src="assets/icons/internet.webp" alt="Internet" />
         <span class="label">Internet</span>
       </div>
+
       <div
         class="dock-icon"
         data-app="calculator"
@@ -161,21 +159,21 @@
       </div>
       <div
         class="dock-icon"
-        data-app="clockApp"
-        onclick="openWindow('clockApp')"
-        oncontextmenu="dockContext(event,'clockApp')"
+        data-app="mail"
+        onclick="openWindow('mail')"
+        oncontextmenu="dockContext(event, 'mail')"
       >
-        <img src="assets/icons/clock.webp" alt="Clock" />
-        <span class="label">Clock</span>
+        <img src="assets/icons/mail.webp" alt="mail" />
+        <span class="label">Mail</span>
       </div>
       <div
         class="dock-icon"
-        data-app="notepad"
-        onclick="openWindow('notepad')"
-        oncontextmenu="dockContext(event,'notepad')"
+        data-app="coffee"
+        onclick="openWindow('coffee')"
+        oncontextmenu="dockContext(event, 'coffee')"
       >
-        <img src="assets/icons/notepad.webp" alt="Notepad" />
-        <span class="label">Notepad</span>
+        <img src="assets/icons/pizza.png" alt="coffee" />
+        <span class="label">Pizza</span>
       </div>
       <div
         class="dock-icon"
@@ -183,7 +181,7 @@
         onclick="openWindow('trash')"
         oncontextmenu="dockContext(event, 'trash')"
       >
-        <img src="assets/icons/trash.webp" alt="Trash" />
+        <img src="assets/icons/trash.png" alt="Trash" />
         <span class="label">Trash</span>
       </div>
     </div>
@@ -273,51 +271,10 @@
       </div>
     </div>
 
-    <!-- Notepad / Calculator / Settings / Clock / Trash / Internet etc. (unchanged) -->
-    <div
-      id="notepad"
-      class="window"
-      style="display: none; left: 80px; top: 120px"
-    >
-      <div class="title">
-        <span>Notepad</span>
-        <span class="controls">
-          <span
-            class="ctrl ctrl-min"
-            title="Minimize"
-            onclick="minimizeWindow('notepad')"
-            >−</span
-          >
-          <span
-            class="ctrl ctrl-close"
-            title="Close"
-            onclick="closeWindow('notepad')"
-            >×</span
-          >
-        </span>
-      </div>
-      <div class="content">
-        <div style="margin-bottom: 8px">
-          <strong>Abhinav Kuchhal</strong> — edit and save below:
-        </div>
-        <textarea id="notepadArea"></textarea>
-        <div
-          style="margin-top: 8px; display: flex; gap: 8px; align-items: center"
-        >
-          <button onclick="saveNotepad()">Save</button>
-          <button onclick="loadNotepad()">Load</button>
-          <div
-            id="notepadSaved"
-            style="opacity: 0.8; font-size: 12px; margin-left: auto"
-          ></div>
-        </div>
-      </div>
-    </div>
-
     <div
       id="calculator"
       class="window"
-      style="display: none; left: 60px; top: 120px"
+      style="display: none; left: 60px; top: 180px"
     >
       <div class="title">
         <span>Calculator</span>
@@ -370,6 +327,41 @@
     </div>
 
     <div
+      id="coffee"
+      class="window"
+      style="display: none; left: 200px; top: 200px; width: 380px"
+    >
+      <div class="title">
+        <span>Support My Work</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('coffee')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content coffee-content">
+        <p>
+          If you enjoy this project, please consider supporting me with a pizza.
+          It helps me create more cool stuff like this!
+        </p>
+
+        <!-- The updated button structure -->
+        <button class="buy-me-a-pizza-button">
+          <a
+            href="https://www.buymeacoffee.com/justpratiyush"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            🍕 Buy me a pizza
+          </a>
+        </button>
+      </div>
+    </div>
+
+    <div
       id="settings"
       class="window"
       style="display: none; left: 300px; top: 320px"
@@ -409,7 +401,7 @@
     <div
       id="clockApp"
       class="window small"
-      style="display: none; left: 700px; top: 140px"
+      style="display: none; left: 200px; top: 140px"
     >
       <div class="title">
         <span>Clock</span>
@@ -537,6 +529,8 @@
       </div>
     </div>
 
+    <!-- Main Script File -->
+
     <script src="script.js"></script>
 
     <!-- Vercel Analytics -->
@@ -548,6 +542,6 @@
           (window.vaq = window.vaq || []).push(arguments);
         };
     </script>
-    <script defer src="/_vercel/insights/script.js"></script>
+    <script src="/_vercel/insights/script.js"></script>
   </body>
 </html>

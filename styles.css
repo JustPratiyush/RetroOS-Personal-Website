@@ -220,6 +220,13 @@ select {
   border-radius: 10px;
   margin-left: auto;
   opacity: 0.85;
+  /* MODIFIED: Added cursor pointer to indicate it's clickable */
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.top-bar .clock:hover {
+  background: rgba(255, 255, 255, 0.8);
 }
 
 /* Menus */
@@ -588,6 +595,47 @@ textarea {
   padding: 6px;
   border: 1px solid #999;
 }
+/*CSS FOR THE COFFEE WINDOW CONTENT */
+.coffee-content {
+  text-align: center;
+  padding: 25px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.coffee-content p {
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 20px;
+}
+
+.buy-me-a-pizza-button {
+  /* Use theme-consistent styles */
+  border: 3px solid #000;
+  background: #ffdd00; /* A nice yellow color */
+  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.9);
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  margin-bottom: 20px;
+}
+
+.buy-me-a-pizza-button a {
+  font-family: "Pixelify Sans", "Poppins", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #000000; /* Set the text color here */
+  text-decoration: none; /* Remove the underline */
+  display: block; /* Make the link fill the button */
+}
+
+/* Add a nice press-down effect */
+.buy-me-a-pizza-button:active {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.9);
+}
 
 /* Calculator */
 #calculator {
@@ -624,6 +672,7 @@ textarea {
   cursor: pointer;
   box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.2);
   transition: all 0.1s ease;
+  font-family: "VT323", monospace;
 }
 #calculator button:active {
   transform: translate(1px, 1px);

@@ -295,22 +295,8 @@ function menuAction(action) {
 }
 
 /* ---------------------------
-   Notepad
+   REMOVED: Notepad functions were here
    --------------------------- */
-function saveNotepad() {
-  const area = document.getElementById("notepadArea");
-  if (!area) return;
-  localStorage.setItem("notepadContent", area.value);
-  const status = document.getElementById("notepadSaved");
-  if (status) status.textContent = "Saved: " + new Date().toLocaleTimeString();
-}
-function loadNotepad() {
-  const area = document.getElementById("notepadArea");
-  if (!area) return;
-  area.value = localStorage.getItem("notepadContent") || "";
-  const status = document.getElementById("notepadSaved");
-  if (status) status.textContent = "Loaded";
-}
 
 /* ---------------------------
    Calculator
@@ -894,8 +880,7 @@ function initApp() {
   // Make icons draggable & clickable
   document.querySelectorAll(".desktop-icon").forEach(makeIconDraggable);
 
-  // load notepad content if any
-  loadNotepad();
+  // REMOVED: loadNotepad() call was here
 
   // keyboard calc handler
   document.addEventListener("keydown", handleCalcKeyDown);
