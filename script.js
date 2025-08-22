@@ -820,7 +820,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // ensure progress hits 100
       if (progressEl) progressEl.style.width = `100%`;
       if (percentEl) percentEl.textContent = `100%`;
-      if (caption) caption.textContent = `Ready`;
+      if (caption) caption.textContent = ``;
 
       // show ENTER button after a short pause
       setTimeout(() => {
