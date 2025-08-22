@@ -185,6 +185,17 @@
         <img src="assets/icons/pizza.png" alt="coffee" />
         <span class="label">Pizza</span>
       </div>
+
+      <div
+        class="dock-icon"
+        data-app="terminal"
+        onclick="openWindow('terminal')"
+        oncontextmenu="dockContext(event, 'terminal')"
+      >
+        <img src="assets/icons/terminal.png" alt="Terminal" />
+        <span class="label">Terminal</span>
+      </div>
+
       <div
         class="dock-icon"
         data-app="trash"
@@ -352,6 +363,12 @@
         <span>New Message</span>
         <span class="controls">
           <span
+            class="ctrl ctrl-min"
+            title="Minimize"
+            onclick="minimizeWindow('mail')"
+            >−</span
+          >
+          <span
             class="ctrl ctrl-close"
             title="Close"
             onclick="closeWindow('mail')"
@@ -481,21 +498,35 @@
 
     <div
       id="clockApp"
-      class="window small"
-      style="display: none; left: 200px; top: 140px"
+      class="window"
+      style="
+        display: none;
+        width: 320px;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+      "
     >
       <div class="title">
         <span>Clock</span>
-        <span class="controls"
-          ><span
+        <span class="controls">
+          <span
             class="ctrl ctrl-close"
             title="Close"
             onclick="closeWindow('clockApp')"
             >×</span
-          ></span
-        >
+          >
+        </span>
       </div>
-      <div class="content">
+      <div
+        class="content"
+        style="
+          padding: 5px;
+          background: #f0f0f0;
+          border-radius: 0 0 5px 5px;
+          text-align: center;
+        "
+      >
         <div id="bigClock" class="big-clock-display"></div>
       </div>
     </div>
@@ -550,7 +581,7 @@
         <div class="snoogle-header">
           <img src="assets/icons/snoogle.webp" alt="Snoogle Logo" />
         </div>
-        <form id="internetSearchForm" onsubmit="handleInternetSearch(event)">
+        <form id="internetSearchForm">
           <input
             type="text"
             id="internetSearchInput"
@@ -610,9 +641,12 @@
       </div>
     </div>
 
-    <!-- Main Script File -->
-
-    <script src="script.js"></script>
+    <!-- Main Script Files -->
+    <script src="js/apps/calculator.js" defer></script>
+    <script src="js/apps/music.js" defer></script>
+    <script src="js/apps/finder.js" defer></script>
+    <script src="js/apps/trash.js" defer></script>
+    <script src="js/main.js" defer></script>
 
     <!-- Vercel Analytics -->
 

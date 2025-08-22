@@ -232,7 +232,7 @@ select {
   display: none;
   position: absolute;
   top: 46px;
-  background: rgba(255, 255, 255, 0.6);
+  background: rgba(255, 255, 255, 0.8);
   border: 2px solid #000;
   min-width: 160px;
   padding: 6px;
@@ -255,7 +255,6 @@ select {
   width: 360px;
   box-shadow: 8px 8px 0 rgba(0, 0, 0, 0.9);
   display: none;
-  resize: both;
   overflow: hidden;
   min-width: 250px;
   min-height: 150px;
