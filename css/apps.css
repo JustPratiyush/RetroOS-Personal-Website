@@ -132,44 +132,6 @@
 }
 
 /* =====================================================================
-     🎵 Music App
-     ===================================================================== */
-.music-player {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-}
-.album-art img {
-  width: 150px;
-  height: 150px;
-  border: 3px solid #000;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.8);
-}
-.track-info {
-  text-align: center;
-}
-.song-title {
-  font-size: 18px;
-  font-weight: bold;
-}
-.song-artist {
-  font-size: 14px;
-  opacity: 0.8;
-}
-.music-controls {
-  display: flex;
-  gap: 15px;
-}
-.music-controls button {
-  font-size: 20px;
-  width: 50px;
-  height: 40px;
-  border-radius: 5px;
-}
-
-/* =====================================================================
      🥚 Easter Egg App
      ===================================================================== */
 .secret-content {

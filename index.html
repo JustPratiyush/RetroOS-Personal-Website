@@ -16,7 +16,9 @@
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/projects.css" />
     <link rel="stylesheet" href="css/terminal.css" />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.min.js"></script>
+    <link rel="stylesheet" href="css/music.css" />
+
+    <script src="https://unpkg.com/tone"></script>
   </head>
   <body>
     <!-- BOOT / PRELOAD OVERLAY -->
@@ -253,6 +255,8 @@
       </div>
     </div>
 
+    <!-- Music Window -->
+
     <div
       id="music"
       class="window"
@@ -278,6 +282,7 @@
       <div class="content music-player">
         <div class="album-art">
           <img
+            id="albumArtImg"
             src="assets/icons/dog.webp"
             alt="Album Art"
             onerror="this.src='https://placehold.co/150x150/000000/FFFFFF?text=RetroDog'"
@@ -292,7 +297,7 @@
           <button id="playPauseBtn">▶</button>
           <button id="nextBtn">▶|</button>
         </div>
-        <div id="musicStatus" style="font-size: 12px; opacity: 0.8"></div>
+        <div id="musicStatus" style="opacity: 0.8"></div>
       </div>
     </div>
 
@@ -694,6 +699,88 @@
       </div>
     </div>
 
+    <template id="readme-template">
+      <div
+        class="window"
+        id="readme"
+        style="
+          display: block;
+          width: 450px;
+          height: auto;
+          left: 150px;
+          top: 100px;
+        "
+      >
+        <div class="title">
+          <span>ReadMe.txt</span>
+          <span class="controls">
+            <span
+              class="ctrl ctrl-close"
+              title="Close"
+              onclick="closeWindow('readme')"
+              >×</span
+            >
+          </span>
+        </div>
+        <div
+          class="content"
+          style="padding: 15px; font-size: 16px; line-height: 1.6"
+        >
+          <h2 style="font-family: 'VT323', monospace; font-size: 32px">
+            Hey! I am Abhinav Kuchhal
+          </h2>
+          <p>
+            A passionate developer with a love for creating intuitive and
+            engaging digital experiences.
+          </p>
+          <hr
+            style="border: none; border-top: 1px solid #ccc; margin: 10px 0"
+          />
+          <h4>Education</h4>
+          <p>
+            <strong>Manipal University Jaipur (2023 - 2027)</strong><br />
+            Bachelor of Technology, Computer Science
+          </p>
+          <h4>Skills</h4>
+          <p>
+            <strong>Languages:</strong> JavaScript, HTML, CSS, Python<br />
+            <strong>Frameworks:</strong> React, Node.js<br />
+            <strong>Tools:</strong> Git, Docker, Webpack, Figma
+          </p>
+        </div>
+      </div>
+    </template>
+
+    <template id="projects-template">
+      <div
+        class="window"
+        id="projects"
+        style="
+          display: block;
+          width: 700px;
+          height: 450px;
+          left: 100px;
+          top: 100px;
+        "
+      >
+        <div class="title">
+          <span>Projects</span>
+          <span class="controls">
+            <span
+              class="ctrl ctrl-close"
+              title="Close"
+              onclick="closeWindow('projects')"
+              >×</span
+            >
+          </span>
+        </div>
+        <div class="content projects-window-content">
+          <div class="projects-sidebar"></div>
+          <div class="projects-main"></div>
+        </div>
+      </div>
+    </template>
+
     <!-- Main Script Files -->
     <script src="js/apps/calculator.js" defer></script>
     <script src="js/apps/music.js" defer></script>
@@ -713,7 +800,5 @@
         };
     </script>
     <script src="/_vercel/insights/script.js"></script>
-    <script src="js/main.js"></script>
-    <script src="js/apps/terminal.js"></script>
   </body>
 </html>
