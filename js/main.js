@@ -9,7 +9,8 @@
 // -----------------------------------------------------------------------------
 
 let zTop = 1000;
-const windowStates = {}; // States: 'closed', 'open', 'minimized'
+const windowStates = {};
+// States: 'closed', 'open', 'minimized'
 
 function bringToFront(el) {
   if (!el) return;
@@ -37,6 +38,7 @@ function updateBatteryStatus() {
     }
 
     updateAllBatteryInfo();
+
     battery.addEventListener("levelchange", updateAllBatteryInfo);
   });
 }
@@ -47,13 +49,11 @@ function updateBatteryStatus() {
 
 // A flag to ensure we only initialize the terminal once
 let isTerminalInitialized = false;
-
 // In js/main.js, find and replace these three functions
 
 function openWindow(id) {
   const el = document.getElementById(id);
   if (!el) return;
-
   const currentState = windowStates[id] || "closed";
   if (currentState === "minimized") {
     el.style.display = "block";
@@ -97,7 +97,8 @@ function closeWindow(id) {
   windowStates[id] = "closed";
 
   if (id === "music") {
-    stopMusic(); // This will also stop both animation loops
+    stopMusic();
+    // This will also stop both animation loops
   }
 
   const dockIcon = document.querySelector(`.dock-icon[data-app="${id}"]`);
@@ -112,7 +113,6 @@ function minimizeWindow(id) {
   if (!el) return;
   el.style.display = "none";
   windowStates[id] = "minimized";
-
   // --- UPDATE THIS LOGIC ---
   // If the music app is minimized, stop the window animation
   // and start the dock animation if music is playing.
@@ -131,7 +131,6 @@ function makeDraggable(win) {
   let isDown = false,
     offX = 0,
     offY = 0;
-
   header.addEventListener("mousedown", function (e) {
     if (e.target.classList.contains("ctrl")) return;
     isDown = true;
@@ -155,7 +154,6 @@ function makeIconDraggable(icon) {
   let isDragging = false,
     offX = 0,
     offY = 0;
-
   icon.addEventListener("mousedown", (e) => {
     isDragging = true;
     const rect = icon.getBoundingClientRect();
@@ -166,17 +164,14 @@ function makeIconDraggable(icon) {
       icon.style.right = "";
     }
   });
-
   window.addEventListener("mousemove", (e) => {
     if (!isDragging) return;
     icon.style.left = `${e.clientX - offX}px`;
     icon.style.top = `${e.clientY - offY}px`;
   });
-
   window.addEventListener("mouseup", () => {
     isDragging = false;
   });
-
   icon.addEventListener("dblclick", () => {
     if (icon.id === "icon-projects") openProjectsFolder();
     else if (icon.id === "icon-readme") openReadMe();
@@ -262,7 +257,6 @@ let currentWallpaperIndex = parseInt(
   localStorage.getItem("currentWallpaperIndex") || "1",
   10
 );
-
 function setWallpaper(style) {
   if (style === "classic") {
     // Set to classic wallpaper (wallpaper0.webp)
@@ -272,7 +266,8 @@ function setWallpaper(style) {
     localStorage.setItem("currentWallpaper", "classic");
   } else if (style === "alt") {
     // Manually cycle to the next wallpaper (1-5)
-    currentWallpaperIndex = (currentWallpaperIndex % 5) + 1; // Cycle 1-5
+    currentWallpaperIndex = (currentWallpaperIndex % 5) + 1;
+    // Cycle 1-5
     document.body.style.backgroundImage = `url('assets/wallpapers/wallpaper${currentWallpaperIndex}.webp')`;
     currentWallpaperState = String(currentWallpaperIndex);
     localStorage.setItem("currentWallpaper", String(currentWallpaperIndex));
@@ -323,7 +318,8 @@ document.addEventListener("DOMContentLoaded", () => {
       bootScreen.style.display = "none";
       initApp();
 
-      // Show welcome notification after initialization (only once)
+      // Show welcome notification after
+      // initialization (only once)
       if (!hasShownWelcome) {
         const welcomeWindow = document.createElement("div");
         welcomeWindow.className = "window";
@@ -337,9 +333,11 @@ document.addEventListener("DOMContentLoaded", () => {
               <span class="ctrl ctrl-close" title="Close" onclick="document.getElementById('welcome-window').remove()">×</span>
             </span>
           </div>
-          <div class="content" style="padding: 20px; font-family: 'VT323', monospace; font-size: 18px; line-height: 1.6; text-align: center;">
+          <div class="content" style="padding: 20px; font-family: 'VT323', monospace; font-size: 18px; line-height: 1.6; text-align: 
+          center;">
             <h2 style="margin: 0 0 15px 0; font-size: 28px;">Welcome to My Digital Space!</h2>
-            <p style="margin-bottom: 15px;">This is my portfolio + an interactive GUI inspired by classic MacOS in a retro-pixelated style. So feel free to click around, explore the apps, and discover more about me.</p>
+            <p style="margin-bottom: 15px;">This is my portfolio + an interactive GUI inspired by classic MacOS in a retro-pixelated style.
+            So feel free to click around, explore the apps, and discover more about me.</p>
             <p style="margin: 0;">Enjoy your stay!</p>
           </div>`;
         document.body.appendChild(welcomeWindow);
@@ -356,7 +354,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let loaded = 0;
   const assets = Array.from(document.images);
   const total = assets.length;
-
   if (total === 0) {
     caption.textContent = "Ready to Start";
     enterBtn.style.display = "inline-block";
@@ -393,7 +390,6 @@ document.addEventListener("DOMContentLoaded", () => {
 function initApp() {
   // Make all windows draggable
   document.querySelectorAll(".window").forEach((win) => makeDraggable(win));
-
   // Make sure terminal window is draggable
   const terminalWindow = document.getElementById("terminal-window");
   if (terminalWindow) {
@@ -408,7 +404,6 @@ function initApp() {
       closeAllMenus();
     }
   });
-
   document
     .getElementById("internetSearchForm")
     ?.addEventListener("submit", (event) => {
