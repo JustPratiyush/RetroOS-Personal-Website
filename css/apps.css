@@ -233,6 +233,7 @@
   text-align: left;
   color: #555;
   margin-left: 20px;
+  font-family: "VT323", monospace;
 }
 .favourites-container {
   display: flex;
