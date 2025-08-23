@@ -4,7 +4,7 @@
  */
 
 // --- 1. CONFIGURE YOUR ALBUMS HERE ---
-export const songs = [
+const songs = [
   {
     title: "Death by Clubbing",
     artist: "Matrix Vector",
