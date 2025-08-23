@@ -1,0 +1,149 @@
+/* =====================================================================
+   💻 Terminal App (Minimalist Redesign)
+   ===================================================================== */
+
+#terminal .content {
+  padding: 0;
+  height: calc(100% - 30px);
+  overflow: hidden;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  font-family: "VT323", monospace; /* Font set once on the parent */
+  font-size: 20px;
+  line-height: 1.4;
+  cursor: text;
+  box-sizing: border-box;
+}
+
+.terminal-content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+  overflow: hidden;
+}
+
+.terminal-output {
+  flex-grow: 1;
+  padding: 10px 10px 0 10px;
+  overflow-y: auto;
+  margin: 0;
+  background: #1a1a1a;
+  color: #e0e0e0;
+  line-height: 1.2;
+  white-space: pre-wrap;
+  word-break: break-word;
+  display: flex;
+  flex-direction: column;
+}
+
+.terminal-output::-webkit-scrollbar {
+  width: 8px;
+}
+.terminal-output::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+}
+.terminal-output::-webkit-scrollbar-thumb {
+  background: #555;
+  border-radius: 4px;
+}
+.terminal-output::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+.terminal-line {
+  margin: 0;
+  padding: 0;
+  word-wrap: break-word;
+  font-size: 20px;
+  line-height: 1.2;
+  min-height: 1.2em;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.terminal-prompt {
+  color: #e0e0e0;
+  font-weight: bold;
+}
+.terminal-path {
+  color: #68a0f0;
+}
+.terminal-user {
+  color: #e5c07b;
+  font-weight: bold;
+}
+.terminal-info {
+  color: #c678dd;
+  font-weight: bold;
+}
+.terminal-command {
+  color: #6aff00;
+  font-weight: bold;
+}
+.terminal-boot {
+  color: #6aff00;
+}
+.terminal-command-text {
+  color: #e0e0e0;
+}
+.terminal-error {
+  color: #ff0015;
+}
+.terminal-directory {
+  color: #56b6c2;
+}
+.terminal-file {
+  color: #e0e0e0;
+}
+
+.terminal-input-container {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px 10px 10px;
+  flex-shrink: 0;
+  background: #1a1a1a;
+  border-top: 1px solid #333;
+}
+
+.terminal-input {
+  flex-grow: 1;
+  background: transparent;
+  border: none;
+  color: #6aff00;
+  font-family: inherit; /* Inherits font from parent */
+  font-size: 20px; /* Corrected syntax */
+  outline: none;
+  padding: 5px 0;
+  caret-color: #e0e0e0;
+}
+
+.terminal-input:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.terminal-input:focus {
+  caret-color: #00ff1e;
+}
+
+.terminal-output pre {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: inherit; /* Inherits font from parent */
+  font-size: 20px; /* Corrected syntax */
+  line-height: 1.4;
+}
+
+.terminal-output a {
+  color: #61afef;
+  text-decoration: none;
+}
+.terminal-output a:hover {
+  text-decoration: underline;
+}
+
+::selection {
+  background: #3e4451;
+  color: #e0e0e0;
+}

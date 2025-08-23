@@ -45,6 +45,9 @@ function updateBatteryStatus() {
 // UI MANAGEMENT (WINDOWS, MENUS, DRAGGING)
 // -----------------------------------------------------------------------------
 
+// A flag to ensure we only initialize the terminal once
+let isTerminalInitialized = false;
+
 function openWindow(id) {
   const el = document.getElementById(id);
   if (!el) return;
@@ -60,11 +63,21 @@ function openWindow(id) {
     bringToFront(el);
     windowStates[id] = "open";
 
-    // Initialize app-specific content
+    // --- App-specific initializations ---
     if (id === "finder") renderFinderContent("desktop");
     if (id === "music") updateSongDisplay();
     if (id === "trash") renderTrashContent();
-    if (id === "clockApp") updateClock(true); // Force immediate update for clock
+    if (id === "clockApp") updateClock(true);
+
+    // Special handling for the terminal
+    if (id === "terminal") {
+      if (!isTerminalInitialized) {
+        initTerminal();
+        isTerminalInitialized = true;
+      }
+      focusTerminal();
+    }
+    // --- End initializations ---
 
     const dockIcon = document.querySelector(`.dock-icon[data-app="${id}"]`);
     if (dockIcon) dockIcon.classList.add("active");
@@ -362,8 +375,15 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initApp() {
-  // Draggables
-  document.querySelectorAll(".window").forEach(makeDraggable);
+  // Make all windows draggable
+  document.querySelectorAll(".window").forEach((win) => makeDraggable(win));
+
+  // Make sure terminal window is draggable
+  const terminalWindow = document.getElementById("terminal-window");
+  if (terminalWindow) {
+    makeDraggable(terminalWindow);
+  }
+
   document.querySelectorAll(".desktop-icon").forEach(makeIconDraggable);
 
   // Event Listeners

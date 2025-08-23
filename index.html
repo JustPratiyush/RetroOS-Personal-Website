@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="css/responsive.css" />
     <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/projects.css" />
+    <link rel="stylesheet" href="css/terminal.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.7.77/Tone.min.js"></script>
   </head>
   <body>
@@ -350,6 +351,55 @@
       </div>
     </div>
 
+    <!-- Terminal App -->
+    <div
+      id="terminal"
+      class="window"
+      style="
+        display: none;
+        left: 200px;
+        top: 100px;
+        width: 600px;
+        height: 450px;
+      "
+    >
+      <div class="title">
+        <span>Terminal</span>
+        <span class="controls">
+          <span
+            class="ctrl ctrl-min"
+            title="Minimize"
+            onclick="minimizeWindow('terminal')"
+            >−</span
+          >
+          <span
+            class="ctrl ctrl-close"
+            title="Close"
+            onclick="closeWindow('terminal')"
+            >×</span
+          >
+        </span>
+      </div>
+      <div class="content terminal-content" onclick="focusTerminal()">
+        <div id="terminalOutput" class="terminal-output"></div>
+        <div class="terminal-input-container">
+          <span class="terminal-user">abhinavkuchhal</span
+          ><span class="terminal-prompt">@</span
+          ><span class="terminal-info">retro-os</span
+          ><span class="terminal-prompt">:</span
+          ><span class="terminal-path">~</span
+          ><span class="terminal-prompt prompt-cursor">$ </span>
+          <input
+            id="terminalInput"
+            type="text"
+            class="terminal-input"
+            autocomplete="off"
+            spellcheck="false"
+          />
+        </div>
+      </div>
+    </div>
+
     <!-- This is the new window for the Mail app -->
     <div
       id="mail"
@@ -663,5 +713,7 @@
         };
     </script>
     <script src="/_vercel/insights/script.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/apps/terminal.js"></script>
   </body>
 </html>
