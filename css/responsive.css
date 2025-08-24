@@ -1,25 +1,172 @@
-/* Responsive */
+/* =====================================================================
+   Responsive Design
+   ===================================================================== */
+
+/* --- Default visibility for icons (Desktop First Approach) --- */
+.show-on-mobile {
+  display: none !important; /* Hide hamburger by default, use !important to ensure it's hidden */
+}
+.hide-on-mobile {
+  display: flex; /* Show regular icons by default */
+}
+
+/* --- App Drawer (Hidden by default) --- */
+.app-drawer {
+  display: none; /* Fully hidden until toggled */
+  position: fixed;
+  bottom: 100px; /* Position above the dock */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 350px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(5px);
+  border: 2px solid #000;
+  border-radius: 12px;
+  padding: 15px;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
+  z-index: 4999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.2s ease, visibility 0s 0.2s, bottom 0.2s ease;
+}
+
+.app-drawer.show {
+  display: block;
+  opacity: 1;
+  visibility: visible;
+  bottom: 85px; /* Slide up into view */
+  transition: opacity 0.2s ease, visibility 0s 0s, bottom 0.2s ease;
+}
+
+.app-drawer-content {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
+  gap: 15px;
+  justify-items: center;
+}
+
+.app-drawer .dock-icon {
+  width: 70px;
+  height: auto;
+  flex-direction: column;
+}
+
+.app-drawer .dock-icon::before {
+  display: none; /* No background plate needed in drawer */
+}
+
+.app-drawer .dock-icon img {
+  width: 50px;
+  height: 50px;
+}
+
+.app-drawer .dock-icon .label {
+  position: static;
+  opacity: 1;
+  transform: none;
+  background: none;
+  color: #000;
+  font-size: 12px;
+  margin-top: 5px;
+  font-weight: 600;
+  text-shadow: none;
+}
+
+/* --- Tablet & Smaller Laptops (up to 768px) --- */
+@media (max-width: 768px) {
+  .window {
+    width: 85%;
+    left: 7.5% !important;
+    top: 60px !important;
+    max-height: 80vh;
+  }
+  .dock {
+    padding: 8px;
+    gap: 4px;
+    border-radius: 14px;
+    width: auto;
+    max-width: 95%;
+  }
+  .dock-icon {
+    width: 64px;
+    height: 64px;
+  }
+  .dock-icon::before {
+    width: 58px;
+    height: 58px;
+  }
+  .dock-icon img,
+  .dock-icon svg {
+    width: 48px;
+    height: 48px;
+  }
+  .dock-icon:hover img,
+  .dock-icon:hover svg {
+    transform: scale(1.2) translateY(-1px);
+  }
+  .top-bar {
+    padding: 6px 10px;
+    gap: 12px;
+  }
+}
+
+/* --- Mobile Devices (up to 600px) --- */
+
 @media (max-width: 600px) {
   :root {
     --file-icon-size: var(--file-icon-size-sm);
   }
+
+  /* Swap visibility for dock icons on mobile */
+  .hide-on-mobile {
+    display: none !important; /* This is the fix */
+  }
+  .show-on-mobile {
+    display: flex !important; /* This is the fix */
+    align-items: center;
+    justify-content: center;
+  }
+
   .window {
-    width: 92%;
-    left: 4% !important;
+    width: 94%;
+    left: 3% !important;
+    top: 50px !important;
+    min-height: 200px;
   }
   .dock {
-    width: 95%;
+    width: auto;
+    max-width: 95%;
+    padding: 6px;
+    gap: 8px;
+    bottom: 15px;
+    border-radius: 12px;
   }
   .dock-icon {
+    width: 54px;
+    height: 54px;
+  }
+  .dock-icon::before {
     width: 50px;
     height: 50px;
   }
-  .dock-icon::before {
-    width: 52px;
-    height: 52px;
-  }
-  .dock-icon img {
+  .dock-icon img,
+  .dock-icon svg {
     width: var(--file-icon-size);
     height: var(--file-icon-size);
+  }
+  .top-bar .left {
+    gap: 5px;
+  }
+  .top-bar .icon {
+    padding: 4px 6px;
+    font-size: 14px;
+  }
+  .top-bar .right-icons {
+    gap: 10px;
+  }
+  .top-bar .clock {
+    font-size: 16px;
+    padding: 4px 8px;
   }
 }

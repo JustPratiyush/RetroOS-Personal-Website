@@ -54,7 +54,6 @@ function openWindow(id) {
 
   // --- START: Updated Music Logic ---
   if (id === "music") {
-    stopDockNoteLoop();
     createMusicPlayer();
   }
   // --- END: Updated Music Logic ---
@@ -83,6 +82,14 @@ function openWindow(id) {
   } else {
     bringToFront(el);
   }
+
+  // Close app drawer and deactivate icon after opening an app
+  const appDrawer = document.getElementById("app-drawer");
+  const hamburgerIcon = document.getElementById("hamburger-icon");
+  if (appDrawer && appDrawer.classList.contains("show")) {
+    appDrawer.classList.remove("show");
+    hamburgerIcon.classList.remove("active");
+  }
 }
 
 function closeWindow(id) {
@@ -91,11 +98,9 @@ function closeWindow(id) {
   el.style.display = "none";
   windowStates[id] = "closed";
 
-  // --- START: Updated Music Logic ---
   if (id === "music") {
-    destroyMusicPlayer(); // Properly destroys the player and stops all animations
+    destroyMusicPlayer();
   }
-  // --- END: Updated Music Logic ---
 
   const dockIcon = document.querySelector(`.dock-icon[data-app="${id}"]`);
   if (dockIcon) dockIcon.classList.remove("active");
@@ -110,15 +115,12 @@ function minimizeWindow(id) {
   el.style.display = "none";
   windowStates[id] = "minimized";
 
-  // --- START: Updated Music Logic ---
-  // We can use isMusicPlaying() again because it's now accurate!
   if (id === "music") {
-    stopWindowNoteLoop(); // Window is hidden, so stop its animation
+    stopWindowNoteLoop();
     if (isMusicPlaying()) {
-      startDockNoteLoop(); // If music is playing, start the dock animation
+      startDockNoteLoop();
     }
   }
-  // --- END: Updated Music Logic ---
 }
 
 function makeDraggable(win) {
@@ -233,9 +235,7 @@ function menuAction(action) {
         'Shut down functionality is disabled in this demo. <br><br> <button onclick="window.close()">Proceed Anyway</button>'
       );
       break;
-    // File, View, and Edit menu items are now decorative and don't perform any action
     default:
-      // No action for other menu items
       break;
   }
 }
@@ -261,14 +261,12 @@ let currentWallpaperIndex = parseInt(
 
 function setWallpaper(style) {
   if (style === "classic") {
-    // Set to classic wallpaper (wallpaper0.webp)
     document.body.style.backgroundImage =
       "url('assets/wallpapers/wallpaper0.webp')";
     currentWallpaperState = "classic";
     localStorage.setItem("currentWallpaper", "classic");
   } else if (style === "alt") {
-    // Manually cycle to the next wallpaper (1-5)
-    currentWallpaperIndex = (currentWallpaperIndex % 5) + 1; // Cycle 1-5
+    currentWallpaperIndex = (currentWallpaperIndex % 5) + 1;
     document.body.style.backgroundImage = `url('assets/wallpapers/wallpaper${currentWallpaperIndex}.webp')`;
     currentWallpaperState = String(currentWallpaperIndex);
     localStorage.setItem("currentWallpaper", String(currentWallpaperIndex));
@@ -277,7 +275,6 @@ function setWallpaper(style) {
       String(currentWallpaperIndex)
     );
   } else if (!isNaN(style)) {
-    // For direct numeric access
     const index = parseInt(style, 10);
     if (index >= 0 && index <= 5) {
       document.body.style.backgroundImage = `url('assets/wallpapers/wallpaper${index}.webp')`;
@@ -287,11 +284,6 @@ function setWallpaper(style) {
       localStorage.setItem("currentWallpaperIndex", String(index));
     }
   }
-}
-
-function cycleWallpaper() {
-  // This function is kept for compatibility but not used in the UI
-  setWallpaper("alt");
 }
 
 function toggleGrayscale(isChecked) {
@@ -305,7 +297,6 @@ function toggleGrayscale(isChecked) {
 document.addEventListener("DOMContentLoaded", () => {
   const bootScreen = document.getElementById("boot-screen");
   const enterBtn = document.getElementById("boot-enter");
-
   let hasShownWelcome = false;
 
   function finishBoot() {
@@ -314,18 +305,18 @@ document.addEventListener("DOMContentLoaded", () => {
     startupSound
       .play()
       .catch((e) => console.log("Could not play startup sound:", e));
+
     bootScreen.classList.add("boot-hide");
     setTimeout(() => {
       bootScreen.style.display = "none";
       initApp();
 
-      // Show welcome notification after initialization (only once)
       if (!hasShownWelcome) {
         const welcomeWindow = document.createElement("div");
         welcomeWindow.className = "window";
         welcomeWindow.id = "welcome-window";
         welcomeWindow.style.cssText =
-          "display:block; left:30%; top:30%; transform: translate(-50%, -50%); width: 500px; max-width: 90%;";
+          "display:block; left:50%; top:50%; transform: translate(-50%, -50%); width: 500px; max-width: 90%;";
         welcomeWindow.innerHTML = `
           <div class="title">
             <span>Welcome</span>
@@ -387,21 +378,28 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 function initApp() {
-  // Make all windows draggable
   document.querySelectorAll(".window").forEach((win) => makeDraggable(win));
-
-  // Make sure terminal window is draggable
-  const terminalWindow = document.getElementById("terminal-window");
-  if (terminalWindow) {
-    makeDraggable(terminalWindow);
-  }
-
   document.querySelectorAll(".desktop-icon").forEach(makeIconDraggable);
 
-  // Event Listeners
+  // Global click listener
   window.addEventListener("click", (e) => {
+    // Close top bar menus if clicking outside
     if (!e.target.closest(".top-bar .icon") && !e.target.closest(".menu")) {
       closeAllMenus();
+    }
+
+    // Close app drawer if clicking outside of it AND not on the hamburger icon
+    const appDrawer = document.getElementById("app-drawer");
+    const hamburgerIcon = document.getElementById("hamburger-icon");
+    if (appDrawer && hamburgerIcon) {
+      if (
+        appDrawer.classList.contains("show") &&
+        !appDrawer.contains(e.target) &&
+        !e.target.closest("#hamburger-icon")
+      ) {
+        appDrawer.classList.remove("show");
+        hamburgerIcon.classList.remove("active");
+      }
     }
   });
 
@@ -420,14 +418,25 @@ function initApp() {
       if (queryInput) queryInput.value = "";
     });
 
-  // Initialize wallpaper - default to wallpaper1.webp on first load
   const savedWallpaper = localStorage.getItem("currentWallpaper") || "1";
   setWallpaper(savedWallpaper === "alt" ? "1" : savedWallpaper);
 
-  renderTrashContent();
+  if (typeof renderTrashContent === "function") renderTrashContent();
   updateBatteryStatus();
+  if (typeof initCalculator === "function") initCalculator();
+  if (typeof initClock === "function") initClock();
+}
 
-  // Initialize App-Specific Logic
-  initCalculator();
-  initClock();
+// --- CORRECTED App Drawer Functionality ---
+function toggleAppDrawer() {
+  const appDrawer = document.getElementById("app-drawer");
+  const hamburgerIcon = document.getElementById("hamburger-icon");
+  if (!appDrawer || !hamburgerIcon) return;
+
+  // This function will now ONLY open the drawer.
+  // It will not close it if clicked a second time.
+  if (!appDrawer.classList.contains("show")) {
+    appDrawer.classList.add("show");
+    hamburgerIcon.classList.add("active");
+  }
 }

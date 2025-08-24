@@ -328,8 +328,6 @@ select {
   resize: none;
 }
 
-/* Explicity Music app is Black Background */
-
 /* Dock */
 .dock {
   position: fixed;
@@ -366,7 +364,8 @@ select {
   transition: all 180ms cubic-bezier(0.2, 0.8, 0.2, 1.2);
   z-index: 1;
 }
-.dock-icon img {
+.dock-icon img,
+.dock-icon svg {
   pointer-events: none;
   position: relative;
   z-index: 2;
@@ -397,7 +396,8 @@ select {
   box-shadow: 0 12px 0 rgba(0, 0, 0, 0.5);
   background: #000;
 }
-.dock-icon:hover img {
+.dock-icon:hover img,
+.dock-icon:hover svg {
   transform: scale(1.4) translateY(-1px);
 }
 .dock-icon:hover .label {
@@ -409,7 +409,8 @@ select {
   background: #000;
   transform: scale(1.05);
 }
-.dock-icon.active img {
+.dock-icon.active img,
+.dock-icon.active svg {
   transform: scale(1.05);
 }
 

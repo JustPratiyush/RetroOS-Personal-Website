@@ -135,85 +135,128 @@
       <div onclick="menuAction('Full Screen')">Full Screen</div>
     </div>
 
+    <!-- Dock -->
     <div class="dock">
-      <div
-        class="dock-icon"
-        data-app="finder"
-        onclick="openWindow('finder')"
-        oncontextmenu="dockContext(event,'finder')"
-      >
+      <!-- App Drawer for Mobile (this will be hidden on desktop) -->
+      <div id="app-drawer" class="app-drawer">
+        <div class="app-drawer-content">
+          <!-- Icons that will appear inside the drawer on mobile -->
+          <div
+            class="dock-icon"
+            data-app="internet"
+            onclick="openWindow('internet')"
+          >
+            <img src="assets/icons/internet.webp" alt="Internet" />
+            <span class="label">Internet</span>
+          </div>
+          <div
+            class="dock-icon"
+            data-app="calculator"
+            onclick="openWindow('calculator')"
+          >
+            <img src="assets/icons/calculator.webp" alt="Calculator" />
+            <span class="label">Calculator</span>
+          </div>
+          <div class="dock-icon" data-app="music" onclick="openWindow('music')">
+            <img src="assets/icons/music.webp" alt="Music" />
+            <span class="label">Music</span>
+          </div>
+          <div class="dock-icon" data-app="mail" onclick="openWindow('mail')">
+            <img src="assets/icons/mail.webp" alt="mail" />
+            <span class="label">Mail</span>
+          </div>
+          <div
+            class="dock-icon"
+            data-app="coffee"
+            onclick="openWindow('coffee')"
+          >
+            <img src="assets/icons/pizza.png" alt="coffee" />
+            <span class="label">Pizza</span>
+          </div>
+          <div
+            class="dock-icon"
+            data-app="terminal"
+            onclick="openWindow('terminal')"
+          >
+            <img src="assets/icons/terminal.png" alt="Terminal" />
+            <span class="label">Terminal</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Main Dock Icons -->
+      <div class="dock-icon" data-app="finder" onclick="openWindow('finder')">
         <img src="assets/icons/finder.webp" alt="Finder" />
         <span class="label">Finder</span>
       </div>
+
+      <!-- Icons to hide on mobile (visible on desktop) -->
       <div
-        class="dock-icon"
+        class="dock-icon hide-on-mobile"
         data-app="internet"
         onclick="openWindow('internet')"
-        oncontextmenu="dockContext(event,'internet')"
       >
         <img src="assets/icons/internet.webp" alt="Internet" />
         <span class="label">Internet</span>
       </div>
-
       <div
-        class="dock-icon"
+        class="dock-icon hide-on-mobile"
         data-app="calculator"
         onclick="openWindow('calculator')"
-        oncontextmenu="dockContext(event,'calculator')"
       >
         <img src="assets/icons/calculator.webp" alt="Calculator" />
         <span class="label">Calculator</span>
       </div>
       <div
-        class="dock-icon"
+        class="dock-icon hide-on-mobile"
         data-app="music"
         onclick="openWindow('music')"
-        oncontextmenu="dockContext(event,'music')"
       >
         <img src="assets/icons/music.webp" alt="Music" />
         <span class="label">Music</span>
       </div>
       <div
-        class="dock-icon"
+        class="dock-icon hide-on-mobile"
         data-app="mail"
         onclick="openWindow('mail')"
-        oncontextmenu="dockContext(event, 'mail')"
       >
         <img src="assets/icons/mail.webp" alt="mail" />
         <span class="label">Mail</span>
       </div>
       <div
-        class="dock-icon"
+        class="dock-icon hide-on-mobile"
         data-app="coffee"
         onclick="openWindow('coffee')"
-        oncontextmenu="dockContext(event, 'coffee')"
       >
         <img src="assets/icons/pizza.png" alt="coffee" />
         <span class="label">Pizza</span>
       </div>
-
       <div
-        class="dock-icon"
+        class="dock-icon hide-on-mobile"
         data-app="terminal"
         onclick="openWindow('terminal')"
-        oncontextmenu="dockContext(event, 'terminal')"
       >
         <img src="assets/icons/terminal.png" alt="Terminal" />
         <span class="label">Terminal</span>
       </div>
 
+      <!-- Hamburger Icon for Mobile (hidden on desktop) -->
       <div
-        class="dock-icon"
-        data-app="trash"
-        onclick="openWindow('trash')"
-        oncontextmenu="dockContext(event, 'trash')"
+        class="dock-icon show-on-mobile"
+        id="hamburger-icon"
+        onclick="toggleAppDrawer()"
       >
+        <img src="assets/icons/dog.webp" alt="Apps" />
+        <span class="label">Apps</span>
+      </div>
+
+      <div class="dock-icon" data-app="trash" onclick="openWindow('trash')">
         <img src="assets/icons/trash.png" alt="Trash" />
         <span class="label">Trash</span>
       </div>
     </div>
 
-    <!-- (rest is unchanged windows/apps) -->
+    <!-- (windows/apps) -->
     <div
       id="finder"
       class="window"
@@ -781,10 +824,8 @@
     <script src="js/apps/trash.js" defer></script>
     <script src="js/apps/clock.js" defer></script>
     <script src="js/apps/terminal.js" defer></script>
-    <script src="js/main.js" defer></script>
 
     <!-- Vercel Analytics -->
-
     <script>
       window.va =
         window.va ||
