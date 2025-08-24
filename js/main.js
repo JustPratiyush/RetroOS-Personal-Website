@@ -11,12 +11,19 @@
 let zTop = 1000;
 const windowStates = {}; // States: 'closed', 'open', 'minimized'
 
+/**
+ * Brings a given element to the front of the z-index stack.
+ * @param {HTMLElement} el The element to bring to the front.
+ */
 function bringToFront(el) {
   if (!el) return;
   zTop += 1;
   el.style.zIndex = zTop;
 }
 
+/**
+ * Updates the battery status icon if the API is available.
+ */
 function updateBatteryStatus() {
   if (!("getBattery" in navigator)) {
     const batteryIconEl = document.getElementById("battery-icon");
@@ -42,48 +49,69 @@ function updateBatteryStatus() {
 }
 
 // -----------------------------------------------------------------------------
-// UI MANAGEMENT (WINDOWS, MENUS, DRAGGING)
+// ICON & WINDOW MANAGEMENT
 // -----------------------------------------------------------------------------
 
-// A flag to ensure we only initialize the terminal once
 let isTerminalInitialized = false;
 
+/**
+ * Reliably finds the VISIBLE dock icon for an app and sets its active state.
+ * @param {string} appName The name of the app (e.g., 'music').
+ * @param {boolean} isActive Whether to add or remove the 'active' class.
+ */
+function setAppIconActive(appName, isActive) {
+  const allIcons = document.querySelectorAll(
+    `.dock-icon[data-app="${appName}"]`
+  );
+  if (allIcons.length === 0) return;
+
+  allIcons.forEach((icon) => icon.classList.remove("active"));
+
+  if (isActive) {
+    const visibleIcon = Array.from(allIcons).find(
+      (icon) => icon.offsetParent !== null
+    );
+    if (visibleIcon) {
+      visibleIcon.classList.add("active");
+    }
+  }
+}
+
+/**
+ * Opens a window, bringing it to the front and setting its state.
+ * @param {string} id The ID of the window to open.
+ */
 function openWindow(id) {
   const el = document.getElementById(id);
   if (!el) return;
 
-  // --- START: Updated Music Logic ---
+  // --- THIS IS THE FIX ---
+  // If we are opening the music app, stop the dock animation immediately.
   if (id === "music") {
+    if (typeof stopDockNoteLoop === "function") {
+      stopDockNoteLoop();
+    }
     createMusicPlayer();
   }
-  // --- END: Updated Music Logic ---
 
   const currentState = windowStates[id] || "closed";
-  if (currentState === "minimized") {
+  if (currentState === "minimized" || currentState === "closed") {
     el.style.display = "block";
-    bringToFront(el);
     windowStates[id] = "open";
-  } else if (currentState === "closed") {
-    el.style.display = "block";
-    bringToFront(el);
-    windowStates[id] = "open";
+    setAppIconActive(id, true);
+
     if (id === "finder") renderFinderContent("desktop");
     if (id === "trash") renderTrashContent();
     if (id === "clockApp") updateClock(true);
-    if (id === "terminal") {
-      if (!isTerminalInitialized) {
-        initTerminal();
-        isTerminalInitialized = true;
-      }
-      focusTerminal();
+    if (id === "terminal" && !isTerminalInitialized) {
+      initTerminal();
+      isTerminalInitialized = true;
     }
-    const dockIcon = document.querySelector(`.dock-icon[data-app="${id}"]`);
-    if (dockIcon) dockIcon.classList.add("active");
-  } else {
-    bringToFront(el);
+    if (id === "terminal") focusTerminal();
   }
 
-  // Close app drawer and deactivate icon after opening an app
+  bringToFront(el);
+
   const appDrawer = document.getElementById("app-drawer");
   const hamburgerIcon = document.getElementById("hamburger-icon");
   if (appDrawer && appDrawer.classList.contains("show")) {
@@ -92,36 +120,46 @@ function openWindow(id) {
   }
 }
 
+/**
+ * Closes a window and updates its state.
+ * @param {string} id The ID of the window to close.
+ */
 function closeWindow(id) {
   const el = document.getElementById(id);
   if (!el) return;
   el.style.display = "none";
   windowStates[id] = "closed";
+  setAppIconActive(id, false);
 
   if (id === "music") {
     destroyMusicPlayer();
   }
 
-  const dockIcon = document.querySelector(`.dock-icon[data-app="${id}"]`);
-  if (dockIcon) dockIcon.classList.remove("active");
   if (id === "projects" || id === "readme") {
     el.parentElement?.removeChild(el);
   }
 }
 
+/**
+ * Minimizes a window and updates its state.
+ * @param {string} id The ID of the window to minimize.
+ */
 function minimizeWindow(id) {
   const el = document.getElementById(id);
   if (!el) return;
   el.style.display = "none";
   windowStates[id] = "minimized";
+  setAppIconActive(id, true);
 
   if (id === "music") {
     stopWindowNoteLoop();
-    if (isMusicPlaying()) {
+    if (typeof isMusicPlaying === "function" && isMusicPlaying()) {
       startDockNoteLoop();
     }
   }
 }
+
+// (The rest of main.js remains unchanged)
 
 function makeDraggable(win) {
   const header = win.querySelector(".title");
@@ -180,10 +218,6 @@ function makeIconDraggable(icon) {
     else if (icon.id === "icon-readme") openReadMe();
   });
 }
-
-// -----------------------------------------------------------------------------
-// DYNAMIC CONTENT, MENUS & SETTINGS
-// -----------------------------------------------------------------------------
 
 function toggleMenu(menuId, el) {
   const menu = document.getElementById(menuId);
@@ -252,7 +286,6 @@ function createMessageWindow(title, message) {
   bringToFront(win);
 }
 
-// Wallpaper functions
 let currentWallpaperState = localStorage.getItem("currentWallpaper") || "1";
 let currentWallpaperIndex = parseInt(
   localStorage.getItem("currentWallpaperIndex") || "1",
@@ -289,10 +322,6 @@ function setWallpaper(style) {
 function toggleGrayscale(isChecked) {
   document.body.style.filter = isChecked ? "grayscale(100%)" : "none";
 }
-
-// -----------------------------------------------------------------------------
-// BOOT SEQUENCE & INITIALIZATION
-// -----------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", () => {
   const bootScreen = document.getElementById("boot-screen");
@@ -381,14 +410,11 @@ function initApp() {
   document.querySelectorAll(".window").forEach((win) => makeDraggable(win));
   document.querySelectorAll(".desktop-icon").forEach(makeIconDraggable);
 
-  // Global click listener
   window.addEventListener("click", (e) => {
-    // Close top bar menus if clicking outside
     if (!e.target.closest(".top-bar .icon") && !e.target.closest(".menu")) {
       closeAllMenus();
     }
 
-    // Close app drawer if clicking outside of it AND not on the hamburger icon
     const appDrawer = document.getElementById("app-drawer");
     const hamburgerIcon = document.getElementById("hamburger-icon");
     if (appDrawer && hamburgerIcon) {
@@ -427,14 +453,11 @@ function initApp() {
   if (typeof initClock === "function") initClock();
 }
 
-// --- CORRECTED App Drawer Functionality ---
 function toggleAppDrawer() {
   const appDrawer = document.getElementById("app-drawer");
   const hamburgerIcon = document.getElementById("hamburger-icon");
   if (!appDrawer || !hamburgerIcon) return;
 
-  // This function will now ONLY open the drawer.
-  // It will not close it if clicked a second time.
   if (!appDrawer.classList.contains("show")) {
     appDrawer.classList.add("show");
     hamburgerIcon.classList.add("active");

@@ -12,18 +12,13 @@ window.onSpotifyIframeApiReady = (IFrameAPI) => {
 };
 
 /**
- * NEW: A reusable function to create the Spotify player.
+ * Creates the Spotify player instance.
  */
 function createMusicPlayer() {
-  // If the player already exists or the API isn't ready, do nothing.
   if (embedController || !spotifyApi) {
     return;
   }
 
-  // =================================================================
-  //  START: ADD THIS CODE BLOCK TO FIX THE REOPEN BUG
-  // =================================================================
-  // Ensure the target element exists, creating it if it doesn't.
   let element = document.getElementById("spotify-embed");
   if (!element) {
     const parentContainer = document.querySelector("#music .music-player");
@@ -33,17 +28,13 @@ function createMusicPlayer() {
       element.style.height = "100%";
       parentContainer.appendChild(element);
     } else {
-      // Failsafe in case the parent container is missing
       console.error("Music player container not found.");
       return;
     }
   }
-  // =================================================================
-  //  END: ADD THIS CODE BLOCK
-  // =================================================================
 
   const options = {
-    uri: "spotify:playlist:6TJxITfc7J0PKxMy44OtKB", // Example: "Lofi Beats" playlist
+    uri: "spotify:playlist:6TJxITfc7J0PKxMy44OtKB",
     width: "100%",
     height: "100%",
     theme: "dark",
@@ -70,7 +61,7 @@ function createMusicPlayer() {
 }
 
 /**
- * Expose a function for main.js to check the playback state.
+ * Exposes a function for main.js to check the playback state.
  */
 function isMusicPlaying() {
   return isSpotifyPlaying;
@@ -86,10 +77,15 @@ function destroyMusicPlayer() {
     isSpotifyPlaying = false;
     stopWindowNoteLoop();
     stopDockNoteLoop();
+    // --- THIS IS THE FIX ---
+    // Ensure the icon is deactivated when the player is destroyed.
+    if (typeof setAppIconActive === "function") {
+      setAppIconActive("music", false);
+    }
   }
 }
 
-// --- Animation Logic (Unchanged) ---
+// --- Animation Logic ---
 let dockNoteAnimationInterval = null;
 let windowNoteAnimationInterval = null;
 
@@ -112,7 +108,8 @@ function createNoteElement(config) {
 }
 
 function createDockNote() {
-  const el = document.querySelector('.dock-icon[data-app="music"]');
+  const allIcons = document.querySelectorAll('.dock-icon[data-app="music"]');
+  const el = Array.from(allIcons).find((icon) => icon.offsetParent !== null);
   if (!el) return;
   const rect = el.getBoundingClientRect();
   createNoteElement({
