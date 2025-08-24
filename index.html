@@ -3,29 +3,26 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Retro macOS — Abhinav</title>
-    <link rel="icon" type="image/png" href="assets/icons/apple.webp" />
+    <title>RetrOS — Abhinav</title>
+    <link rel="icon" type="image/ico" href="assets/icons/logo.ico" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&family=VT323&display=swap"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/apps.css" />
     <link rel="stylesheet" href="css/responsive.css" />
-    <link rel="stylesheet" href="css/main.css" />
     <link rel="stylesheet" href="css/projects.css" />
     <link rel="stylesheet" href="css/terminal.css" />
     <link rel="stylesheet" href="css/music.css" />
-
-    <script src="https://unpkg.com/tone"></script>
   </head>
   <body>
-    <!-- BOOT / PRELOAD OVERLAY -->
     <div id="boot-screen" aria-hidden="false">
       <div class="boot-center">
         <div>
-          <img src="assets/icons/apple.webp" class="boot-apple" alt="Apple" />
+          <img src="assets/icons/logo.webp" class="boot-apple" alt="Apple" />
         </div>
 
         <div
@@ -73,7 +70,7 @@
           data-menu="appleMenu"
           onclick="toggleMenu('appleMenu', this)"
         >
-          <img src="assets/icons/apple.webp" class="logo" alt="Apple" />
+          <img src="assets/icons/logo.webp" class="logo" alt="Apple" />
         </div>
         <div
           class="icon"
@@ -97,10 +94,9 @@
           View
         </div>
       </div>
-      <!-- This is the new container for the right-side icons -->
       <div class="right-icons">
         <div class="status-icon">
-          <img src="assets/icons/wifi.png" alt="Wi-Fi" />
+          <img src="assets/icons/wifi.webp" alt="Wi-Fi" />
         </div>
         <div id="battery-icon" class="status-icon battery">
           <div id="battery-level" class="battery-level"></div>
@@ -112,7 +108,7 @@
     </div>
 
     <div id="appleMenu" class="menu">
-      <div onclick="menuAction('About This Mac')">About This Mac</div>
+      <div onclick="menuAction('About This Mac')">About This OS</div>
       <div onclick="menuAction('System Info')">System Info</div>
       <div onclick="openWindow('settings'); closeAllMenus();">Settings</div>
       <div onclick="menuAction('Licenses')">Licenses</div>
@@ -135,12 +131,9 @@
       <div onclick="menuAction('Full Screen')">Full Screen</div>
     </div>
 
-    <!-- Dock -->
     <div class="dock">
-      <!-- App Drawer for Mobile (this will be hidden on desktop) -->
       <div id="app-drawer" class="app-drawer">
         <div class="app-drawer-content">
-          <!-- Icons that will appear inside the drawer on mobile -->
           <div
             class="dock-icon"
             data-app="internet"
@@ -170,7 +163,7 @@
             data-app="coffee"
             onclick="openWindow('coffee')"
           >
-            <img src="assets/icons/pizza.png" alt="coffee" />
+            <img src="assets/icons/pizza.webp" alt="coffee" />
             <span class="label">Pizza</span>
           </div>
           <div
@@ -184,13 +177,11 @@
         </div>
       </div>
 
-      <!-- Main Dock Icons -->
       <div class="dock-icon" data-app="finder" onclick="openWindow('finder')">
         <img src="assets/icons/finder.webp" alt="Finder" />
         <span class="label">Finder</span>
       </div>
 
-      <!-- Icons to hide on mobile (visible on desktop) -->
       <div
         class="dock-icon hide-on-mobile"
         data-app="internet"
@@ -228,7 +219,7 @@
         data-app="coffee"
         onclick="openWindow('coffee')"
       >
-        <img src="assets/icons/pizza.png" alt="coffee" />
+        <img src="assets/icons/pizza.webp" alt="coffee" />
         <span class="label">Pizza</span>
       </div>
       <div
@@ -240,28 +231,22 @@
         <span class="label">Terminal</span>
       </div>
 
-      <!-- Hamburger Icon for Mobile (hidden on desktop) -->
       <div
         class="dock-icon show-on-mobile"
         id="hamburger-icon"
         onclick="toggleAppDrawer()"
       >
-        <img src="assets/icons/4.png" alt="Apps" />
+        <img src="assets/icons/appdrawer.webp" alt="Apps" />
         <span class="label">Apps</span>
       </div>
 
       <div class="dock-icon" data-app="trash" onclick="openWindow('trash')">
-        <img src="assets/icons/trash.png" alt="Trash" />
+        <img src="assets/icons/trash.webp" alt="Trash" />
         <span class="label">Trash</span>
       </div>
     </div>
 
-    <!-- (windows/apps) -->
-    <div
-      id="finder"
-      class="window"
-      style="display: none; left: 100px; top: 80px; width: 600px; height: 400px"
-    >
+    <div id="finder" class="window" style="display: none">
       <div class="title">
         <span>Finder</span>
         <span class="controls">
@@ -298,19 +283,7 @@
       </div>
     </div>
 
-    <!-- Music Window -->
-
-    <div
-      id="music"
-      class="window"
-      style="
-        display: none;
-        left: 250px;
-        top: 150px;
-        width: 400px;
-        height: 440px;
-      "
-    >
+    <div id="music" class="window" style="display: none">
       <div class="title">
         <span>Music</span>
         <span class="controls">
@@ -333,11 +306,7 @@
       </div>
     </div>
 
-    <div
-      id="calculator"
-      class="window"
-      style="display: none; left: 60px; top: 180px"
-    >
+    <div id="calculator" class="window" style="display: none">
       <div class="title">
         <span>Calculator</span>
         <span class="controls">
@@ -388,12 +357,7 @@
       </div>
     </div>
 
-    <!-- Terminal App -->
-    <div
-      id="terminal"
-      class="window"
-      style="display: none; left: 10px; top: 150px; width: 600px; height: 450px"
-    >
+    <div id="terminal" class="window" style="display: none">
       <div class="title">
         <span>Terminal</span>
         <span class="controls">
@@ -431,18 +395,7 @@
       </div>
     </div>
 
-    <!-- This is the new window for the Mail app -->
-    <div
-      id="mail"
-      class="window"
-      style="
-        display: none;
-        left: 150px;
-        top: 120px;
-        width: 550px;
-        height: 450px;
-      "
-    >
+    <div id="mail" class="window" style="display: none">
       <div class="title">
         <span>New Message</span>
         <span class="controls">
@@ -461,8 +414,6 @@
         </span>
       </div>
       <div class="content mail-content">
-        <!-- Your Formspree form, styled for the app -->
-        <!-- Your Formspree form, updated for subject and file uploads -->
         <form
           action="https://formspree.io/f/mdkdqlol"
           method="POST"
@@ -482,8 +433,6 @@
               required
             />
           </div>
-
-          <!-- New Subject Field -->
           <div class="mail-header">
             <label for="email-subject">Subject:</label>
             <input
@@ -508,11 +457,7 @@
       </div>
     </div>
 
-    <div
-      id="coffee"
-      class="window"
-      style="display: none; left: 200px; top: 200px; width: 380px"
-    >
+    <div id="coffee" class="window" style="display: none">
       <div class="title">
         <span>Support My Work</span>
         <span class="controls">
@@ -529,8 +474,6 @@
           If you enjoy this project, please consider supporting me with a pizza.
           It helps me create more cool stuff like this!
         </p>
-
-        <!-- The updated button structure -->
         <button class="buy-me-a-pizza-button">
           <a
             href="https://www.buymeacoffee.com/justpratiyush"
@@ -543,11 +486,7 @@
       </div>
     </div>
 
-    <div
-      id="settings"
-      class="window"
-      style="display: none; left: 300px; top: 320px"
-    >
+    <div id="settings" class="window" style="display: none">
       <div class="title">
         <span>Settings</span>
         <span class="controls">
@@ -570,27 +509,17 @@
         <button onclick="setWallpaper('classic')">Classic</button>
         <button onclick="setWallpaper('alt')">Alternate</button>
         <div style="margin-top: 12px">Effects:</div>
-        <label
-          ><input
+        <label>
+          <input
             type="checkbox"
             id="grayscaleToggle"
             onchange="toggleGrayscale(this.checked)"
-          />Grayscale wallpaper</label
-        >
+          />Grayscale wallpaper
+        </label>
       </div>
     </div>
 
-    <div
-      id="clockApp"
-      class="window"
-      style="
-        display: none;
-        width: 320px;
-        left: 50%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-      "
-    >
+    <div id="clockApp" class="window" style="display: none">
       <div class="title">
         <span>Clock</span>
         <span class="controls">
@@ -615,51 +544,38 @@
       </div>
     </div>
 
-    <div
-      id="trash"
-      class="window"
-      style="
-        display: none;
-        left: 240px;
-        top: 140px;
-        width: 400px;
-        height: 300px;
-      "
-    >
+    <div id="trash" class="window" style="display: none">
       <div class="title">
-        <span>Trash</span
-        ><span class="controls"
-          ><span
+        <span>Trash</span>
+        <span class="controls">
+          <span
             class="ctrl ctrl-close"
             title="Close"
             onclick="closeWindow('trash')"
             >×</span
-          ></span
-        >
+          >
+        </span>
       </div>
       <div class="content" id="trashContent" style="padding: 15px"></div>
     </div>
 
-    <div
-      id="internet"
-      class="window"
-      style="display: none; left: 150px; top: 150px; width: 480px"
-    >
+    <div id="internet" class="window" style="display: none">
       <div class="title">
-        <span>Internet</span
-        ><span class="controls"
-          ><span
+        <span>Internet</span>
+        <span class="controls">
+          <span
             class="ctrl ctrl-min"
             title="Minimize"
             onclick="minimizeWindow('internet')"
             >−</span
-          ><span
+          >
+          <span
             class="ctrl ctrl-close"
             title="Close"
             onclick="closeWindow('internet')"
             >×</span
-          ></span
-        >
+          >
+        </span>
       </div>
       <div class="content internet-content">
         <div class="snoogle-header">
@@ -679,64 +595,49 @@
               href="https://x.com/JustPratiyush"
               target="_blank"
               class="favourite-item"
-              ><img src="assets/icons/twitter.webp" alt="Twitter" /><span
-                class="favourite-label"
-                >Twitter</span
-              ></a
             >
+              <img src="assets/icons/twitter.webp" alt="Twitter" />
+              <span class="favourite-label">Twitter</span>
+            </a>
             <a
               href="https://www.instagram.com/justpratiyush/"
               target="_blank"
               class="favourite-item"
-              ><img src="assets/icons/instagram.webp" alt="Instagram" /><span
-                class="favourite-label"
-                >Instagram</span
-              ></a
             >
+              <img src="assets/icons/instagram.webp" alt="Instagram" />
+              <span class="favourite-label">Instagram</span>
+            </a>
             <a
               href="https://www.youtube.com/@JustPratiyush"
               target="_blank"
               class="favourite-item"
-              ><img src="assets/icons/youtube.webp" alt="Youtube" /><span
-                class="favourite-label"
-                >Youtube</span
-              ></a
             >
+              <img src="assets/icons/youtube.webp" alt="Youtube" />
+              <span class="favourite-label">Youtube</span>
+            </a>
             <a
               href="https://www.linkedin.com/in/abhinav-kuchhal/"
               target="_blank"
               class="favourite-item"
-              ><img src="assets/icons/linkedin.webp" alt="LinkedIn" /><span
-                class="favourite-label"
-                >LinkedIn</span
-              ></a
             >
+              <img src="assets/icons/linkedin.webp" alt="LinkedIn" />
+              <span class="favourite-label">LinkedIn</span>
+            </a>
             <a
               href="https://github.com/JustPratiyush"
               target="_blank"
               class="favourite-item"
-              ><img src="assets/icons/github.webp" alt="GitHub" /><span
-                class="favourite-label"
-                >GitHub</span
-              ></a
             >
+              <img src="assets/icons/github.webp" alt="GitHub" />
+              <span class="favourite-label">GitHub</span>
+            </a>
           </div>
         </div>
       </div>
     </div>
 
     <template id="readme-template">
-      <div
-        class="window"
-        id="readme"
-        style="
-          display: block;
-          width: 450px;
-          height: auto;
-          left: 150px;
-          top: 100px;
-        "
-      >
+      <div class="window" id="readme" style="display: block; height: auto">
         <div class="title">
           <span>ReadMe.txt</span>
           <span class="controls">
@@ -778,17 +679,7 @@
     </template>
 
     <template id="projects-template">
-      <div
-        class="window"
-        id="projects"
-        style="
-          display: block;
-          width: 700px;
-          height: 450px;
-          left: 100px;
-          top: 100px;
-        "
-      >
+      <div class="window" id="projects" style="display: block">
         <div class="title">
           <span>Projects</span>
           <span class="controls">
@@ -807,7 +698,6 @@
       </div>
     </template>
 
-    <!-- Main Script Files -->
     <script src="js/main.js" defer></script>
     <script src="js/system.js" defer></script>
 
@@ -820,7 +710,6 @@
     <script src="js/apps/clock.js" defer></script>
     <script src="js/apps/terminal.js" defer></script>
 
-    <!-- Vercel Analytics -->
     <script>
       window.va =
         window.va ||

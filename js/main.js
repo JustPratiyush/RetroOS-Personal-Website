@@ -27,8 +27,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const welcomeWindow = document.createElement("div");
         welcomeWindow.className = "window";
         welcomeWindow.id = "welcome-window";
-        welcomeWindow.style.cssText =
-          "display:block; left:30%; top:30%; transform: translate(-50%, -50%); width: 500px; max-width: 90%;";
+        welcomeWindow.style.cssText = "display:block; max-width: 90%;";
         welcomeWindow.innerHTML = `
           <div class="title">
             <span>Welcome</span>
