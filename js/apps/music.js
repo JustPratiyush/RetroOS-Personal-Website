@@ -1,119 +1,116 @@
+// --- Player State & API ---
+let embedController = null;
+let isSpotifyPlaying = false;
+let spotifyApi = null; // Variable to hold the loaded API
+
 /**
- * App: Music Player (FINAL & ROBUST VERSION)
- * Plays real audio files, handles a loading state, and includes dynamic animations.
+ * This function is called once the Spotify script is ready.
+ * We just save the IFrameAPI object for later use.
  */
+window.onSpotifyIframeApiReady = (IFrameAPI) => {
+  spotifyApi = IFrameAPI;
+};
 
-// --- 1. CONFIGURE YOUR ALBUMS HERE ---
-const songs = [
-  {
-    title: "Death by Clubbing",
-    artist: "Matrix Vector",
-    filePath: "assets/music/song1.mp3",
-    artworkPath: "assets/music/CoverArt/AlbumCover1.png",
-  },
-  {
-    title: "My Way",
-    artist: "Your Name",
-    filePath: "assets/music/song2.mp3",
-    artworkPath: "assets/music/CoverArt/AlbumCover2.png",
-  },
-];
-
-// --- Core Player & State Variables ---
-let player = null;
-let currentSongIndex = 0;
-let isPlaying = false;
-let isLoading = false; // <-- NEW: State to track loading
-let dockNoteAnimationInterval = null;
-let windowNoteAnimationInterval = null;
-
-// --- 2. FINAL & ROBUST PLAYER LOGIC ---
-function playMusic() {
-  if (isPlaying || isLoading) return; // Don't do anything if already playing or loading
-
-  const song = songs[currentSongIndex];
-  if (!song || !song.filePath) {
-    document.getElementById("musicStatus").textContent = "Error: No song file.";
+/**
+ * NEW: A reusable function to create the Spotify player.
+ */
+function createMusicPlayer() {
+  // If the player already exists or the API isn't ready, do nothing.
+  if (embedController || !spotifyApi) {
     return;
   }
 
-  isLoading = true;
-  document.getElementById("musicStatus").textContent = "Loading...";
-
-  // --- FIX IS HERE ---
-  // We must start the audio context before creating a player.
-  Tone.start()
-    .then(() => {
-      player = new Tone.Player(song.filePath, () => {
-        // This callback runs once the audio is loaded successfully
-        isLoading = false;
-        isPlaying = true;
-        player.start();
-        document.getElementById("playPauseBtn").textContent = "❚❚";
-        document.getElementById(
-          "musicStatus"
-        ).textContent = `Playing: ${song.title}`;
-        startWindowNoteLoop();
-      }).toDestination();
-
-      // Handle potential loading errors or when the song finishes
-      player.onstop = () => {
-        if (!isPlaying) return; // Avoids firing on manual stop
-        stopMusic();
-      };
-    })
-    .catch((error) => {
-      // This runs if the user's browser blocks audio entirely
-      isLoading = false;
-      console.error("Audio context could not be started:", error);
-      document.getElementById("musicStatus").textContent = "Audio blocked.";
-    });
-}
-
-function stopMusic() {
-  if (player) {
-    player.stop();
-    player.dispose();
+  // =================================================================
+  //  START: ADD THIS CODE BLOCK TO FIX THE REOPEN BUG
+  // =================================================================
+  // Ensure the target element exists, creating it if it doesn't.
+  let element = document.getElementById("spotify-embed");
+  if (!element) {
+    const parentContainer = document.querySelector("#music .music-player");
+    if (parentContainer) {
+      element = document.createElement("div");
+      element.id = "spotify-embed";
+      element.style.height = "100%";
+      parentContainer.appendChild(element);
+    } else {
+      // Failsafe in case the parent container is missing
+      console.error("Music player container not found.");
+      return;
+    }
   }
-  isPlaying = false;
-  isLoading = false; // <-- NEW: Ensure loading is reset
-  document.getElementById("playPauseBtn").textContent = "▶";
-  document.getElementById("musicStatus").textContent = "Stopped";
-  stopDockNoteLoop();
-  stopWindowNoteLoop();
+  // =================================================================
+  //  END: ADD THIS CODE BLOCK
+  // =================================================================
+
+  const options = {
+    uri: "spotify:playlist:6TJxITfc7J0PKxMy44OtKB", // Example: "Lofi Beats" playlist
+    width: "100%",
+    height: "100%",
+    theme: "dark",
+  };
+
+  const callback = (controller) => {
+    embedController = controller;
+    embedController.addListener("playback_update", (e) => {
+      isSpotifyPlaying = !e.data.isPaused;
+      const musicWindow = document.getElementById("music");
+      if (!musicWindow) return;
+
+      const isWindowVisible = musicWindow.style.display !== "none";
+
+      if (isSpotifyPlaying && isWindowVisible) {
+        startWindowNoteLoop();
+      } else {
+        stopWindowNoteLoop();
+      }
+    });
+  };
+
+  spotifyApi.createController(element, options, callback);
 }
 
-function togglePlay() {
-  if (isLoading) return; // Prevent action while loading
-  isPlaying ? stopMusic() : playMusic();
+/**
+ * Expose a function for main.js to check the playback state.
+ */
+function isMusicPlaying() {
+  return isSpotifyPlaying;
 }
 
-// --- 3. EFFICIENT & REFACTORED ANIMATION LOGIC ---
+/**
+ * Expose a function for main.js to properly shut down the player.
+ */
+function destroyMusicPlayer() {
+  if (embedController) {
+    embedController.destroy();
+    embedController = null;
+    isSpotifyPlaying = false;
+    stopWindowNoteLoop();
+    stopDockNoteLoop();
+  }
+}
 
-// A single, efficient function to create any note element
+// --- Animation Logic (Unchanged) ---
+let dockNoteAnimationInterval = null;
+let windowNoteAnimationInterval = null;
+
 function createNoteElement(config) {
   const notes = ["♪", "♫", "♬", "♩", "♭", "♮"];
   const noteEl = document.createElement("div");
-
   noteEl.classList.add("musical-note");
   noteEl.textContent = notes[Math.floor(Math.random() * notes.length)];
   noteEl.style.zIndex = config.zIndex;
   document.body.appendChild(noteEl);
-
   const duration = Math.random() * 1 + 1.5;
   const finalScale = Math.random() * 0.4 + 0.3;
   const horizontalDrift = (Math.random() - 0.5) * 80;
-
   noteEl.style.animationDuration = `${duration}s`;
   noteEl.style.setProperty("--random-x", `${horizontalDrift}px`);
   noteEl.style.setProperty("--random-scale", finalScale);
   noteEl.style.left = `${config.x}px`;
   noteEl.style.top = `${config.y}px`;
-
   setTimeout(() => noteEl.remove(), duration * 1000);
 }
 
-// Creates a note from the DOCK icon
 function createDockNote() {
   const el = document.querySelector('.dock-icon[data-app="music"]');
   if (!el) return;
@@ -121,11 +118,10 @@ function createDockNote() {
   createNoteElement({
     x: rect.left + rect.width / 2,
     y: rect.top,
-    zIndex: 4999, // Behind dock
+    zIndex: 4999,
   });
 }
 
-// Creates a note from the WINDOW
 function createWindowNote() {
   const el = document.getElementById("music");
   if (!el || el.style.display === "none") return;
@@ -133,67 +129,26 @@ function createWindowNote() {
   createNoteElement({
     x: rect.left + Math.random() * rect.width,
     y: rect.top,
-    zIndex: parseInt(el.style.zIndex || 100) - 1, // Behind window
+    zIndex: parseInt(el.style.zIndex || 100) - 1,
   });
 }
 
-// Loop controls for both animations
 function startDockNoteLoop() {
-  if (dockNoteAnimationInterval) clearInterval(dockNoteAnimationInterval);
+  if (dockNoteAnimationInterval) return;
   dockNoteAnimationInterval = setInterval(createDockNote, 400);
 }
+
 function stopDockNoteLoop() {
   clearInterval(dockNoteAnimationInterval);
   dockNoteAnimationInterval = null;
 }
+
 function startWindowNoteLoop() {
-  if (windowNoteAnimationInterval) clearInterval(windowNoteAnimationInterval);
+  if (windowNoteAnimationInterval) return;
   windowNoteAnimationInterval = setInterval(createWindowNote, 200);
 }
+
 function stopWindowNoteLoop() {
   clearInterval(windowNoteAnimationInterval);
   windowNoteAnimationInterval = null;
-}
-
-// --- DISPLAY AND CONTROL LOGIC ---
-function updateSongDisplay() {
-  const song = songs[currentSongIndex];
-  if (!song) return;
-  document.getElementById("songTitle").textContent = song.title;
-  document.getElementById("songArtist").textContent = song.artist;
-  document.getElementById("albumArtImg").src = song.artworkPath;
-  document.getElementById("musicStatus").textContent = "Press ▶ to start.";
-}
-
-function nextSong() {
-  if (isLoading) return; // Prevent action while loading
-  const wasPlaying = isPlaying;
-  if (wasPlaying) stopMusic();
-  currentSongIndex = (currentSongIndex + 1) % songs.length;
-  updateSongDisplay();
-  if (wasPlaying) playMusic();
-}
-
-function prevSong() {
-  if (isLoading) return; // Prevent action while loading
-  const wasPlaying = isPlaying;
-  if (wasPlaying) stopMusic();
-  currentSongIndex = (currentSongIndex - 1 + songs.length) % songs.length;
-  updateSongDisplay(); // <-- FIX: Corrected typo here
-  if (wasPlaying) playMusic();
-}
-
-function initMusicPlayer() {
-  document
-    .getElementById("playPauseBtn")
-    ?.addEventListener("click", togglePlay);
-  document.getElementById("nextBtn")?.addEventListener("click", nextSong);
-  document.getElementById("prevBtn")?.addEventListener("click", prevSong);
-  if (songs.length > 0) {
-    updateSongDisplay();
-  }
-}
-
-function isMusicPlaying() {
-  return isPlaying;
 }

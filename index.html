@@ -260,7 +260,13 @@
     <div
       id="music"
       class="window"
-      style="display: none; left: 250px; top: 150px; width: 320px"
+      style="
+        display: none;
+        left: 250px;
+        top: 150px;
+        width: 400px;
+        height: 440px;
+      "
     >
       <div class="title">
         <span>Music</span>
@@ -279,25 +285,8 @@
           >
         </span>
       </div>
-      <div class="content music-player">
-        <div class="album-art">
-          <img
-            id="albumArtImg"
-            src="assets/icons/dog.webp"
-            alt="Album Art"
-            onerror="this.src='https://placehold.co/150x150/000000/FFFFFF?text=RetroDog'"
-          />
-        </div>
-        <div class="track-info">
-          <div id="songTitle" class="song-title">Pixel Dog Bop</div>
-          <div id="songArtist" class="song-artist">DJ Abhinav</div>
-        </div>
-        <div class="music-controls">
-          <button id="prevBtn">|◀</button>
-          <button id="playPauseBtn">▶</button>
-          <button id="nextBtn">▶|</button>
-        </div>
-        <div id="musicStatus" style="opacity: 0.8"></div>
+      <div class="content music-player" style="padding: 0; height: 100%">
+        <div id="spotify-embed" style="height: 100%"></div>
       </div>
     </div>
 
@@ -782,6 +771,10 @@
     </template>
 
     <!-- Main Script Files -->
+    <script src="js/main.js" defer></script>
+
+    <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+
     <script src="js/apps/calculator.js" defer></script>
     <script src="js/apps/music.js" defer></script>
     <script src="js/apps/finder.js" defer></script>

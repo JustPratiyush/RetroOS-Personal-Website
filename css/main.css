@@ -328,6 +328,8 @@ select {
   resize: none;
 }
 
+/* Explicity Music app is Black Background */
+
 /* Dock */
 .dock {
   position: fixed;

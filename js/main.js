@@ -48,32 +48,27 @@ function updateBatteryStatus() {
 // A flag to ensure we only initialize the terminal once
 let isTerminalInitialized = false;
 
-// In js/main.js, find and replace these three functions
-
 function openWindow(id) {
   const el = document.getElementById(id);
   if (!el) return;
+
+  // --- START: Updated Music Logic ---
+  if (id === "music") {
+    stopDockNoteLoop();
+    createMusicPlayer();
+  }
+  // --- END: Updated Music Logic ---
 
   const currentState = windowStates[id] || "closed";
   if (currentState === "minimized") {
     el.style.display = "block";
     bringToFront(el);
     windowStates[id] = "open";
-    // --- ADD THIS LOGIC ---
-    // Stop the dock animation and start the window animation if music is playing
-    if (id === "music") {
-      stopDockNoteLoop();
-      if (isMusicPlaying()) {
-        startWindowNoteLoop();
-      }
-    }
-    // --- END LOGIC ---
   } else if (currentState === "closed") {
     el.style.display = "block";
     bringToFront(el);
     windowStates[id] = "open";
     if (id === "finder") renderFinderContent("desktop");
-    if (id === "music") updateSongDisplay();
     if (id === "trash") renderTrashContent();
     if (id === "clockApp") updateClock(true);
     if (id === "terminal") {
@@ -96,9 +91,11 @@ function closeWindow(id) {
   el.style.display = "none";
   windowStates[id] = "closed";
 
+  // --- START: Updated Music Logic ---
   if (id === "music") {
-    stopMusic(); // This will also stop both animation loops
+    destroyMusicPlayer(); // Properly destroys the player and stops all animations
   }
+  // --- END: Updated Music Logic ---
 
   const dockIcon = document.querySelector(`.dock-icon[data-app="${id}"]`);
   if (dockIcon) dockIcon.classList.remove("active");
@@ -113,16 +110,15 @@ function minimizeWindow(id) {
   el.style.display = "none";
   windowStates[id] = "minimized";
 
-  // --- UPDATE THIS LOGIC ---
-  // If the music app is minimized, stop the window animation
-  // and start the dock animation if music is playing.
+  // --- START: Updated Music Logic ---
+  // We can use isMusicPlaying() again because it's now accurate!
   if (id === "music") {
-    stopWindowNoteLoop();
+    stopWindowNoteLoop(); // Window is hidden, so stop its animation
     if (isMusicPlaying()) {
-      startDockNoteLoop();
+      startDockNoteLoop(); // If music is playing, start the dock animation
     }
   }
-  // --- END LOGIC ---
+  // --- END: Updated Music Logic ---
 }
 
 function makeDraggable(win) {
@@ -433,6 +429,5 @@ function initApp() {
 
   // Initialize App-Specific Logic
   initCalculator();
-  initMusicPlayer();
   initClock();
 }

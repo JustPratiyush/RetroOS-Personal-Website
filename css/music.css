@@ -1,53 +1,29 @@
 /* =====================================================================
      🎵 Music App
      ===================================================================== */
+
 .music-player {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  font-family: "VT323", monospace, sans-serif;
-}
-.album-art img {
-  width: 150px;
-  height: 150px;
-  border: 3px solid #000;
-  box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.8);
-}
-.track-info {
-  text-align: center;
-}
-.song-title {
-  font-size: 24px;
-  font-weight: bold;
-}
-.song-artist {
-  font-size: 18px;
-  opacity: 0.8;
-}
-.music-controls {
-  display: flex;
-  gap: 15px;
-}
-.music-controls button {
-  font-size: 20px;
-  width: 50px;
-  height: 40px;
-  border-radius: 5px;
+  background-color: #1f1f1f !important;
+  height: 100%;
+  padding: 0;
 }
 
-/* music.css */
+#music.window {
+  background-color: #000 !important;
+}
+
+/* =====================================================================
+         🎶 Musical Notes Animation
+   ===================================================================== */
 
 .musical-note {
   position: fixed;
-  font-size: 24px;
+  font-size: 28px;
   color: #000;
   pointer-events: none;
   user-select: none;
   z-index: 4999;
   opacity: 1;
-  /* The duration will now be set by JavaScript for variety */
   animation: float-up ease-out forwards;
 }
 
@@ -57,7 +33,6 @@
     opacity: 1;
   }
   to {
-    /* Use variables for a more dynamic and random animation path */
     transform: translateY(-90px) translateX(var(--random-x, 0px))
       scale(var(--random-scale, 0.5));
     opacity: 0;
