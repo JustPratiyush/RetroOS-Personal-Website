@@ -147,3 +147,23 @@
   background: #3e4451;
   color: #e0e0e0;
 }
+
+/* =====================================================================
+     ✨ NEW: Responsive Adjustments for Mobile ✨
+     ===================================================================== */
+@media (max-width: 600px) {
+  #terminal {
+    height: 380px !important;
+
+    width: 94% !important;
+  }
+
+  /* This reduces the font size of all terminal text, making it
+      more readable and compact on a small screen.
+    */
+  .terminal-line,
+  .terminal-input,
+  .terminal-output pre {
+    font-size: 16px;
+  }
+}

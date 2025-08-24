@@ -77,8 +77,8 @@
 @media (max-width: 768px) {
   .window {
     width: 85%;
-    left: 7.5% !important;
-    top: 60px !important;
+    left: 7.5%;
+    top: 60px;
     max-height: 80vh;
   }
   .dock {
@@ -130,8 +130,8 @@
 
   .window {
     width: 94%;
-    left: 3% !important;
-    top: 50px !important;
+    left: 3%;
+    top: 50px;
     min-height: 200px;
   }
   .dock {
