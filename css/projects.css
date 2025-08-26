@@ -1,129 +1,105 @@
-/* =====================================================================
-     📂 Projects Window (CORRECTED)
-     ===================================================================== */
-
-/* This is the main flex container for the two columns */
+/* --- Projects Window --- */
 .projects-window-content {
-  display: flex; /* This is the key property to create columns */
-  flex-direction: row; /* Arrange children side-by-side */
-  padding: 0;
+  display: flex;
   height: 100%;
+  padding: 0;
   background: #fff;
+  /* Set font once for all children to inherit */
+  font-family: "VT323", monospace;
 }
 
-/* This is the left column (sidebar) */
+/* --- Sidebar Column --- */
 .projects-sidebar {
   width: 220px;
-  flex-shrink: 0; /* Prevents the sidebar from shrinking */
+  flex-shrink: 0;
+  padding: 5px;
   background: #e0e0e0;
   border-right: 2px solid #000;
   overflow-y: auto;
-  padding: 5px;
 }
-
 .sidebar-project-item {
   padding: 12px 10px;
-  cursor: pointer;
   border-bottom: 1px solid #ccc;
+  cursor: pointer;
   transition: background-color 0.1s ease;
 }
-
 .sidebar-project-item:hover {
   background: #e0e0e0;
 }
-
 .sidebar-project-item.active {
   background: #000;
   color: #fff;
 }
-
 .sidebar-project-item h4 {
   margin: 0 0 4px 0;
   font-size: 16px;
-  font-family: "VT323", monospace;
 }
-
 .sidebar-project-item p {
   margin: 0;
   font-size: 12px;
   opacity: 0.7;
-  font-family: "VT323", monospace;
 }
 
-/* This is the right column (main content) */
+/* --- Main Content Column --- */
 .projects-main {
-  flex-grow: 1; /* Allows this column to take up the remaining space */
+  flex-grow: 1;
   padding: 25px;
   overflow-y: auto;
+  position: relative; /* Added for mobile button positioning */
 }
-
 .project-title {
-  font-family: "VT323", monospace;
   font-size: 28px;
   margin: 0 0 5px 0;
 }
-
 .project-date {
-  font-family: "VT323", monospace;
   font-size: 16px;
   color: #666;
   margin: 0 0 15px 0;
 }
-
 .project-description {
   font-size: 16px;
   line-height: 1.6;
   margin-bottom: 20px;
-  font-family: "VT323", monospace;
 }
-
 .project-tech {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 25px;
-  font-family: "VT323", monospace;
 }
-
 .project-tech span {
-  background: #e0e0e0;
   padding: 4px 10px;
+  border: 1px solid #ccc;
   border-radius: 4px;
+  background: #e0e0e0;
   font-size: 14px;
   font-weight: bold;
-  border: 1px solid #ccc;
 }
-
 .project-buttons {
   display: flex;
   gap: 15px;
   margin-top: 20px;
 }
-
 .btn-retro {
+  display: inline-block;
   padding: 10px 20px;
   border: 3px solid #000;
-  font-family: "VT323", monospace;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.9);
   font-weight: 700;
   font-size: 16px;
-  cursor: pointer;
   text-decoration: none;
-  display: inline-block;
-  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.9);
+  cursor: pointer;
   transition: all 0.1s ease;
 }
-
 .btn-retro:active {
   transform: translate(2px, 2px);
   box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.9);
 }
-
 .btn-demo {
-  background-color: #4a90e2; /* Blue */
+  background-color: #4a90e2;
   color: white;
 }
-
 .btn-code {
-  background-color: #333; /* Black/Dark Grey */
+  background-color: #333;
   color: white;
 }

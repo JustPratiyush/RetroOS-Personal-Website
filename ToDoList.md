@@ -10,3 +10,5 @@
 8. Reramp the Interent App
 9. Add Fullscreen Feature
 10. No Clicking allowed ro File, Edit and View
+11. Fix the Old Portfolio Paths
+12. Make this Project Private on GitHub

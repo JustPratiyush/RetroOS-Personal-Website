@@ -335,14 +335,14 @@ function updateBatteryStatus() {
   });
 }
 
+// In js/system.js
+
 function toggleAppDrawer() {
   const appDrawer = document.getElementById("app-drawer");
   const hamburgerIcon = document.getElementById("hamburger-icon");
   if (!appDrawer || !hamburgerIcon) return;
-  if (!appDrawer.classList.contains("show")) {
-    appDrawer.classList.add("show");
-    hamburgerIcon.classList.add("active");
-  }
+  appDrawer.classList.toggle("show");
+  hamburgerIcon.classList.toggle("active");
 }
 
 // --- SETTINGS ---

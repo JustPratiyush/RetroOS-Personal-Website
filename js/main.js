@@ -93,6 +93,15 @@ function initApp() {
   document.querySelectorAll(".window").forEach((win) => makeDraggable(win));
   document.querySelectorAll(".desktop-icon").forEach(makeIconDraggable);
 
+  const finderToggleBtn = document.querySelector(".finder-toggle-btn");
+  const finderContentArea = document.querySelector("#finder .finder-content");
+
+  if (finderToggleBtn && finderContentArea) {
+    finderToggleBtn.addEventListener("click", () => {
+      finderContentArea.classList.toggle("sidebar-visible");
+    });
+  }
+
   window.addEventListener("click", (e) => {
     if (!e.target.closest(".top-bar .icon") && !e.target.closest(".menu")) {
       closeAllMenus();

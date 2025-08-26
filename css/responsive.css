@@ -1,24 +1,23 @@
-/* --- Default visibility for icons (Desktop First Approach) --- */
+/* --- App Drawer for Mobile --- */
 .show-on-mobile {
-  display: none !important; /* Hide hamburger by default, use !important to ensure it's hidden */
+  display: none !important;
 }
 .hide-on-mobile {
-  display: flex; /* Show regular icons by default */
+  display: flex;
 }
-
 .app-drawer {
-  display: none; /* Fully hidden until toggled */
+  display: none; /* This hides it by default */
   position: fixed;
-  bottom: 100px; /* Position above the dock */
+  bottom: 100px;
   left: 50%;
   transform: translateX(-50%);
   width: 90%;
-  max-width: 350px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(5px);
+  min-width: 300px;
+  padding: 15px;
   border: 2px solid #000;
   border-radius: 12px;
-  padding: 15px;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(5px);
   box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.3);
   z-index: 4999;
   opacity: 0;
@@ -26,6 +25,7 @@
   transition: opacity 0.2s ease, visibility 0s 0.2s, bottom 0.2s ease;
 }
 
+/* This is the crucial rule that makes it visible */
 .app-drawer.show {
   display: block;
   opacity: 1;
@@ -33,29 +33,24 @@
   bottom: 85px;
   transition: opacity 0.2s ease, visibility 0s 0s, bottom 0.2s ease;
 }
-
 .app-drawer-content {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
   gap: 15px;
   justify-items: center;
 }
-
 .app-drawer .dock-icon {
   width: 70px;
   height: auto;
   flex-direction: column;
 }
-
 .app-drawer .dock-icon::before {
-  display: none; /* No background plate needed in drawer */
+  display: none;
 }
-
 .app-drawer .dock-icon img {
   width: 50px;
   height: 50px;
 }
-
 .app-drawer .dock-icon .label {
   position: static;
   opacity: 1;
@@ -63,12 +58,12 @@
   background: none;
   color: #000;
   font-size: 12px;
-  margin-top: 5px;
   font-weight: 600;
   text-shadow: none;
+  margin-top: 5px;
 }
 
-/* --- Tablet & Smaller Laptops (up to 768px) --- */
+/* --- Tablet Breakpoint --- */
 @media (max-width: 768px) {
   .window {
     width: 85%;
@@ -77,11 +72,11 @@
     max-height: 80vh;
   }
   .dock {
+    width: auto;
+    max-width: 95%;
     padding: 8px;
     gap: 4px;
     border-radius: 14px;
-    width: auto;
-    max-width: 95%;
   }
   .dock-icon {
     width: 64px;
@@ -106,25 +101,24 @@
   }
 }
 
-/* --- Mobile Devices (up to 600px) --- */
+.projects-toggle-btn,
+.finder-toggle-btn {
+  display: none;
+}
 
-/* --- Mobile Devices (up to 600px) --- */
-
+/* --- Mobile Breakpoint --- */
 @media (max-width: 600px) {
   :root {
     --file-icon-size: var(--file-icon-size-sm);
   }
-
-  /* Swap visibility for dock icons on mobile */
   .hide-on-mobile {
-    display: none !important; /* This is the fix */
+    display: none !important;
   }
   .show-on-mobile {
-    display: flex !important; /* This is the fix */
+    display: flex !important;
     align-items: center;
     justify-content: center;
   }
-
   .window {
     width: 94%;
     left: 3%;
@@ -151,49 +145,121 @@
     font-size: 16px;
     padding: 4px 8px;
   }
-
   .top-bar .icon[data-menu="fileMenu"],
   .top-bar .icon[data-menu="editMenu"],
   .top-bar .icon[data-menu="viewMenu"] {
     display: none;
   }
-
-  .top-bar .icon[data-menu="appleMenu"] {
-    margin-left: 15px;
-  }
-
   #readme.window {
     width: 90%;
     left: 5%;
     top: 60px;
     max-height: 75vh;
   }
-
-  /* Reduce the font size for the main content */
   #readme .content {
-    font-size: 14px !important; /* Keep !important here as it overrides another inline style */
+    font-size: 14px !important;
   }
-
-  /* Reduce the font size for the main heading */
   #readme .content h2 {
-    font-size: 24px !important; /* Keep !important here as it overrides another inline style */
+    font-size: 24px !important;
   }
-
-  /* --- Responsive Welcome Window --- */
   #welcome-window {
     width: 80%;
     left: 50%;
     top: 40%;
     transform: translate(-50%, -50%);
-    max-height: 75vh;
-    font-size: 14px !important;
+    max-height: 60vh;
+    font-size: 12px !important;
   }
 
-  #welcome-window .content {
-    font-size: 14px !important;
+  /* --- Toggle Buttons (Projects + Finder) --- */
+  .projects-toggle-btn,
+  .finder-toggle-btn {
+    display: block;
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    z-index: 5;
+    background: var(--panel);
+    border: 2px solid #000;
+    box-shadow: 3px 3px 0 #000;
+    color: #000;
+    font-size: 20px;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+  }
+  .projects-toggle-btn:active,
+  .finder-toggle-btn:active {
+    transform: translate(1px, 1px);
+    box-shadow: 2px 2px 0 #000;
   }
 
-  #welcome-window .content h2 {
-    font-size: 24px !important;
+  /* --- Projects Window Mobile Styles --- */
+  #finder,
+  #projects {
+    top: 55px;
+    height: 70vh;
+    max-height: 600px;
+    width: 90%;
+    left: 5%;
+  }
+
+  #trash {
+    width: 80%;
+    height: 40vh;
+    left: 5%;
+  }
+  .projects-window-content {
+    position: relative;
+    overflow: hidden;
+  }
+  .projects-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: #e0e0e0;
+    border-right: none;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  .projects-window-content.sidebar-visible .projects-sidebar {
+    transform: translateX(0);
+  }
+  .projects-main {
+    padding-bottom: 60px;
+  }
+  .project-title {
+    font-size: 22px;
+  }
+  .project-description {
+    font-size: 14px;
+  }
+  .btn-retro {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+
+  /* --- Finder Mobile Styles --- */
+  .finder-content {
+    position: relative;
+    overflow: hidden;
+  }
+  .finder-sidebar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10;
+    background: #e0e0e0;
+    border-right: none;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+  }
+  .finder-content.sidebar-visible .finder-sidebar {
+    transform: translateX(0);
   }
 }

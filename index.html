@@ -268,18 +268,21 @@
         <div class="finder-sidebar">
           <div
             class="sidebar-item active"
-            onclick="renderFinderContent('desktop')"
+            onclick="selectFinderLocation('desktop')"
           >
             Desktop
           </div>
-          <div class="sidebar-item" onclick="renderFinderContent('documents')">
+          <div class="sidebar-item" onclick="selectFinderLocation('documents')">
             Documents
           </div>
-          <div class="sidebar-item" onclick="renderFinderContent('downloads')">
+          <div class="sidebar-item" onclick="selectFinderLocation('downloads')">
             Downloads
           </div>
         </div>
-        <div class="finder-main"></div>
+        <div class="finder-main">
+          <button class="finder-toggle-btn">☰</button>
+          <div class="finder-main-container"></div>
+        </div>
       </div>
     </div>
 
@@ -693,7 +696,10 @@
         </div>
         <div class="content projects-window-content">
           <div class="projects-sidebar"></div>
-          <div class="projects-main"></div>
+          <div class="projects-main">
+            <button class="projects-toggle-btn">☰</button>
+            <div class="project-details-container"></div>
+          </div>
         </div>
       </div>
     </template>

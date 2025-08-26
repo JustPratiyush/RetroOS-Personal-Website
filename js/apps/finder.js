@@ -47,7 +47,7 @@ const projectsData = [
       "My primary personal portfolio website showcasing my skills, projects, and professional journey.",
     date: "Jun 22, 2025",
     technologies: ["Vanilla Frontend"],
-    demoUrl: "https://abhinavkuchhal.com",
+    demoUrl: "https://www.oldportfolio.abhinavkuchhal.com",
     codeUrl: "#",
   },
 ];
@@ -85,6 +85,10 @@ function openReadMe() {
   createWindowFromTemplate("readme-template", "readme-container");
 }
 
+// Inside js/apps/finder.js
+
+// In js/apps/finder.js
+
 function openProjectsFolder() {
   const existingWindow = document.getElementById("projects");
   if (existingWindow) {
@@ -98,25 +102,61 @@ function openProjectsFolder() {
   );
   if (!win) return;
 
+  // Populate the sidebar with project items
   const sidebar = win.querySelector(".projects-sidebar");
-  const sidebarItems = projectsData
-    .map(
-      (project, index) => `
-    <div class="sidebar-project-item" onclick="showProjectDetails(${index})">
-      <h4>${project.title}</h4>
-      <p>${project.date}</p>
-    </div>`
-    )
-    .join("");
-  sidebar.innerHTML = sidebarItems;
+  if (sidebar) {
+    sidebar.innerHTML = projectsData
+      .map(
+        (project, index) => `
+      <div class="sidebar-project-item" onclick="selectProject(${index})">
+        <h4>${project.title}</h4>
+        <p>${project.date}</p>
+      </div>`
+      )
+      .join("");
+  }
 
-  showProjectDetails(0); // Show the first project by default
+  // Set up the toggle button for the slide-out menu
+  const toggleBtn = win.querySelector(".projects-toggle-btn");
+  const contentArea = win.querySelector(".projects-window-content");
+
+  if (toggleBtn && contentArea) {
+    toggleBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      contentArea.classList.toggle("sidebar-visible");
+    });
+  }
+
+  // Show the first project by default
+  showProjectDetails(0);
 }
+
+function selectProject(index) {
+  // Show the details for the clicked project
+  showProjectDetails(index);
+
+  // Find the window and close the sidebar (for mobile view)
+  const contentArea = document.querySelector(
+    "#projects .projects-window-content"
+  );
+  if (contentArea) {
+    contentArea.classList.remove("sidebar-visible");
+  }
+}
+
+// In js/apps/finder.js
 
 function showProjectDetails(index) {
   const project = projectsData[index];
-  const mainContent = document.querySelector("#projects .projects-main");
-  if (!project || !mainContent) return;
+  // 🎯 TARGET THE NEW CONTAINER, NOT THE ENTIRE .projects-main AREA
+  const detailsContainer = document.querySelector(
+    "#projects .project-details-container"
+  );
+
+  if (!project || !detailsContainer) {
+    console.error("Project data or details container not found!");
+    return;
+  }
 
   // Highlight the active project in the sidebar
   document
@@ -125,7 +165,9 @@ function showProjectDetails(index) {
       item.classList.toggle("active", i === index);
     });
 
-  mainContent.innerHTML = `
+  // ✅ THIS IS THE FIX: We now only update the container's HTML.
+  // The button is a sibling to this container and is never touched.
+  detailsContainer.innerHTML = `
     <h2 class="project-title">${project.title}</h2>
     <p class="project-date">${project.date}</p>
     <p class="project-description">${project.description}</p>
@@ -147,10 +189,27 @@ function showProjectDetails(index) {
   `;
 }
 
+// In js/apps/finder.js
+
+function selectFinderLocation(location) {
+  // 1. Render the content for the selected location
+  renderFinderContent(location);
+
+  // 2. Find the window and close the sidebar
+  const contentArea = document.querySelector("#finder .finder-content");
+  if (contentArea) {
+    contentArea.classList.remove("sidebar-visible");
+  }
+}
+
 function renderFinderContent(location) {
-  const mainContent = document.querySelector("#finder .finder-main");
-  if (!mainContent) return;
-  mainContent.innerHTML = "";
+  // 🎯 TARGET THE NEW CONTAINER, NOT THE WHOLE .finder-main AREA
+  const mainContainer = document.querySelector(
+    "#finder .finder-main-container"
+  );
+  if (!mainContainer) return;
+
+  mainContainer.innerHTML = ""; // Clear only the container
 
   document.querySelectorAll("#finder .sidebar-item").forEach((item) => {
     item.classList.toggle(
@@ -170,10 +229,10 @@ function renderFinderContent(location) {
           <img src="${imgSrc}" alt="${name}">
           <span>${name}</span>
         </div>`;
-      mainContent.innerHTML += iconHTML;
+      mainContainer.innerHTML += iconHTML;
     });
   } else {
-    mainContent.innerHTML = `<p style="color:#555; padding: 10px;">This folder is empty.</p>`;
+    mainContainer.innerHTML = `<p style="color:#555; padding: 10px;">This folder is empty.</p>`;
   }
 }
 
